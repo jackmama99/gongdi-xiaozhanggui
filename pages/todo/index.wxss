@@ -1,0 +1,154 @@
+.top-bar {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 28rpx 28rpx;
+  gap: 24rpx;
+}
+
+.top-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100rpx;
+}
+
+.top-num {
+  font-size: 40rpx;
+  color: var(--primary);
+  line-height: 1.2;
+}
+
+.top-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+.top-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: var(--line);
+}
+
+.top-tip {
+  flex: 1;
+  text-align: right;
+  font-size: 22rpx;
+  color: var(--text-4);
+}
+
+/* 待办卡片 */
+.todo-card {
+  margin-bottom: 20rpx;
+}
+
+.todo-time {
+  font-size: 22rpx;
+  color: var(--text-4);
+  flex-shrink: 0;
+}
+
+.todo-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-top: 20rpx;
+  line-height: 1.4;
+}
+
+.todo-desc {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 10rpx;
+  line-height: 1.5;
+}
+
+.todo-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+.foot-applicant {
+  font-size: 24rpx;
+  color: var(--text-3);
+}
+
+.foot-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* 弹窗内容 */
+.popup-content {
+  padding: 24rpx 32rpx 0;
+}
+
+.popup-title-text {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.5;
+}
+
+.popup-sub {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 10rpx;
+  line-height: 1.5;
+}
+
+.popup-row {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.popup-label {
+  width: 140rpx;
+  font-size: 26rpx;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.popup-value {
+  font-size: 28rpx;
+  color: var(--text-1);
+}
+
+.popup-field {
+  margin-top: 26rpx;
+}
+
+.popup-field-label {
+  font-size: 26rpx;
+  color: var(--text-3);
+  margin-bottom: 14rpx;
+}
+
+.popup-textarea {
+  width: 100%;
+  height: 150rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+  box-sizing: border-box;
+}
+
+.popup-ph {
+  color: var(--text-4);
+}
+
+.popup-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 32rpx;
+}

@@ -1,0 +1,220 @@
+<view class="page">
+
+  <!-- 核心指标 -->
+  <view class="container mt-24">
+    <view class="kpi-hero">
+      <view class="kpi-hero-head row-between">
+        <view class="row">
+          <text class="kpi-emoji">📊</text>
+          <text class="kpi-hero-title">经营概览</text>
+        </view>
+        <text class="kpi-updated">更新于 {{updatedAt}}</text>
+      </view>
+
+      <view class="kpi-hero-main">
+        <text class="kpi-hero-label">毛利额</text>
+        <view class="kpi-hero-value">
+          <text class="kpi-hero-num bold-num">{{totals.profitText}}</text>
+          <text class="kpi-hero-rate {{totals.profitType === 'success' ? 'kpi-rate-up' : 'kpi-rate-down'}}">毛利率 {{totals.grossRateText}}</text>
+        </view>
+      </view>
+
+      <view class="kpi-hero-grid">
+        <view class="kpi-hero-item">
+          <text class="kpi-hero-item-label">合同总额</text>
+          <text class="kpi-hero-item-value bold-num">{{totals.contractText}}</text>
+        </view>
+        <view class="kpi-hero-item">
+          <text class="kpi-hero-item-label">已收款</text>
+          <text class="kpi-hero-item-value bold-num">{{totals.receivedText}}</text>
+        </view>
+        <view class="kpi-hero-item">
+          <text class="kpi-hero-item-label">已支出</text>
+          <text class="kpi-hero-item-value bold-num">{{totals.costText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="kpi-sub-grid">
+      <view class="kpi-sub">
+        <view class="kpi-sub-label">回款率</view>
+        <view class="kpi-sub-value t-primary bold-num">{{totals.receiveRate}}%</view>
+        <view class="progress-track kpi-track">
+          <view class="progress-fill" style="width:{{totals.receiveRate}}%"></view>
+        </view>
+      </view>
+      <view class="kpi-sub">
+        <view class="kpi-sub-label">成本率</view>
+        <view class="kpi-sub-value t-warning bold-num">{{totals.costRate}}%</view>
+        <view class="progress-track kpi-track">
+          <view class="progress-fill warning" style="width:{{totals.costRate}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 近 6 个月收支柱状图 -->
+  <view class="container mt-8">
+    <t-section title="近 6 个月收支" sub="单位：元" />
+
+    <view class="card chart-card">
+      <view wx:if="{{!hasChartData}}" class="chart-empty">暂无收支数据，登记收款或支出后这里会出现趋势</view>
+      <view wx:if="{{hasChartData}}" class="chart-y">
+        <text class="chart-y-label">{{maxIncomeText}}</text>
+        <text class="chart-y-label">{{maxCostText}}</text>
+        <text class="chart-y-label">0</text>
+      </view>
+
+      <view wx:if="{{hasChartData}}" class="chart-main">
+        <view wx:for="{{monthly}}" wx:key="month" class="chart-col">
+          <view class="chart-bars">
+            <view class="chart-bar-wrap">
+              <view class="chart-bar chart-bar-income" style="height:{{item.incomeH}}%">
+                <view class="chart-bar-tip">{{item.incomeText}}</view>
+              </view>
+            </view>
+            <view class="chart-bar-wrap">
+              <view class="chart-bar chart-bar-cost" style="height:{{item.costH}}%">
+                <view class="chart-bar-tip">{{item.costText}}</view>
+              </view>
+            </view>
+          </view>
+          <text class="chart-col-label">{{item.month}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="chart-legend">
+      <view class="legend-item">
+        <view class="legend-dot legend-income"></view>
+        <text class="legend-text">收入</text>
+      </view>
+      <view class="legend-item">
+        <view class="legend-dot legend-cost"></view>
+        <text class="legend-text">成本</text>
+      </view>
+      <view class="legend-item legend-profit">
+        <text class="legend-text">柱顶为金额，柱高按当期最大值等比缩放</text>
+      </view>
+    </view>
+
+    <!-- 月度明细 -->
+    <view class="card month-list">
+      <view wx:for="{{monthly}}" wx:key="month" class="month-row {{index === monthly.length - 1 ? 'last' : ''}}">
+        <text class="month-name">{{item.month}}</text>
+        <view class="month-nums">
+          <text class="month-income">收 {{item.incomeText}}</text>
+          <text class="month-cost">支 {{item.costText}}</text>
+          <text class="month-profit t-{{item.profitType}}">利 {{item.profitText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目毛利排行 -->
+  <view class="container mt-8">
+    <t-section title="项目毛利排行" sub="按毛利降序" extra="{{projectExpanded ? '收起' : '展开全部'}}" bind:extra="toggleProject" />
+
+    <view wx:if="{{projectProfit.length === 0}}" class="card">
+      <t-empty icon="📈" text="暂无已签约项目的毛利数据" />
+    </view>
+    <view wx:else class="card rank-card">
+      <block wx:for="{{projectProfit}}" wx:key="id">
+        <view
+          wx:if="{{projectExpanded || index < 5}}"
+          class="rank-item {{index === projectProfit.length - 1 ? 'last' : ''}}"
+          hover-class="row-hover"
+          data-id="{{item.id}}"
+          bindtap="goProject"
+        >
+          <view class="rank-head">
+            <view class="rank-index rank-index-{{index < 3 ? index + 1 : 'n'}}">{{index + 1}}</view>
+            <text class="rank-name ellipsis flex-1">{{item.name}}</text>
+            <text class="rank-profit bold-num t-{{item.profitType}}">{{item.profitText}}</text>
+          </view>
+
+          <view class="rank-bar-row">
+            <view class="rank-track">
+              <view class="rank-fill {{item.barType}}" style="width:{{item.barWidth}}%"></view>
+            </view>
+            <text class="rank-rate {{item.rateClass}}">毛利率 {{item.rate}}%</text>
+          </view>
+
+          <view class="rank-meta">
+            <text class="rank-meta-text">合同 {{item.contractText}}</text>
+            <text class="rank-meta-text">成本 {{item.costText}}</text>
+          </view>
+        </view>
+      </block>
+
+      <view wx:if="{{!projectExpanded && projectProfit.length > 5}}" class="rank-more" bindtap="toggleProject">
+        查看全部 {{projectProfit.length}} 个项目
+      </view>
+    </view>
+  </view>
+
+  <!-- 项目经理维度 -->
+  <view class="container mt-8">
+    <t-section title="项目经理维度" sub="{{managers.length}} 人" />
+
+    <view wx:if="{{managers.length === 0}}" class="card">
+      <t-empty icon="👷" text="暂无项目经理数据" />
+    </view>
+    <view wx:else class="mgr-grid">
+      <view wx:for="{{managers}}" wx:key="name" class="mgr-card">
+        <view class="row gap-16">
+          <view class="mgr-avatar">{{item.initial}}</view>
+          <view class="flex-1">
+            <view class="mgr-name ellipsis">{{item.name}}</view>
+            <view class="mgr-sub">负责 {{item.count}} 个项目</view>
+          </view>
+        </view>
+
+        <view class="mgr-nums">
+          <view class="mgr-num-item">
+            <text class="mgr-num-label">合同总额</text>
+            <text class="mgr-num-value bold-num">{{item.amountText}}</text>
+          </view>
+          <view class="mgr-num-item">
+            <text class="mgr-num-label">毛利贡献</text>
+            <text class="mgr-num-value t-{{item.profitType}} bold-num">{{item.profitText}}</text>
+          </view>
+        </view>
+
+        <view class="mgr-rate-row">
+          <text class="mgr-rate-label">毛利率</text>
+          <text class="mgr-rate-value t-{{item.profitType}}">{{item.rate}}%</text>
+        </view>
+        <view class="progress-track mgr-track">
+          <view class="progress-fill {{item.profitType}}" style="width:{{item.rate}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 客户来源转化 -->
+  <view class="container mt-8">
+    <t-section title="客户来源转化" sub="签约 / 总数" />
+
+    <view wx:if="{{sources.length === 0}}" class="card">
+      <t-empty icon="🎯" text="暂无客户来源数据" />
+    </view>
+    <view wx:else class="card src-card">
+      <view wx:for="{{sources}}" wx:key="source" class="src-item {{index === sources.length - 1 ? 'last' : ''}}">
+        <view class="row-between">
+          <text class="src-name">{{item.source}}</text>
+          <view class="src-nums">
+            <text class="src-fraction bold-num">{{item.signed}}<text class="src-fraction-total">/{{item.total}}</text></text>
+            <text class="src-rate t-{{item.barType === 'success' ? 'success' : item.barType === 'warning' ? 'warning' : 'primary'}}">{{item.rateText}}</text>
+          </view>
+        </view>
+        <view class="progress-track src-track">
+          <view class="progress-fill {{item.barType}}" style="width:{{item.rate}}%"></view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="foot-hint">报表数据由云端实时汇总 · 下拉可刷新</view>
+  <view class="bottom-placeholder"></view>
+</view>

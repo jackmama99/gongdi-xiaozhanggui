@@ -1,0 +1,155 @@
+<view class="page">
+
+  <!-- 项目预算卡 -->
+  <view wx:if="{{budgetInfo}}" class="container mt-24">
+    <view class="budget-card" data-id="{{budgetInfo.id}}" bindtap="goProject">
+      <view class="row-between">
+        <view class="row gap-8 flex-1">
+          <text class="budget-emoji">🏗</text>
+          <text class="budget-name ellipsis">{{budgetInfo.name}}</text>
+          <t-tag text="{{budgetInfo.status}}" type="{{budgetInfo.statusType}}" size="small" />
+        </view>
+        <text class="budget-no">{{budgetInfo.no}}</text>
+      </view>
+
+      <view class="budget-progress">
+        <view class="budget-progress-head">
+          <text class="budget-progress-label">预算消耗</text>
+          <text class="budget-progress-percent {{budgetInfo.over ? 't-danger' : ''}}">{{budgetInfo.percent}}%</text>
+        </view>
+        <view class="progress-track budget-track">
+          <view class="progress-fill {{budgetInfo.barType}}" style="width:{{budgetInfo.percent}}%"></view>
+        </view>
+      </view>
+
+      <view class="budget-nums">
+        <view class="budget-num-item">
+          <text class="budget-num-label">项目预算</text>
+          <text class="budget-num-value bold-num">¥{{budgetInfo.budgetText}}</text>
+        </view>
+        <view class="budget-num-item">
+          <text class="budget-num-label">已支出</text>
+          <text class="budget-num-value t-warning bold-num">¥{{budgetInfo.costText}}</text>
+        </view>
+        <view class="budget-num-item">
+          <text class="budget-num-label">{{budgetInfo.over ? '已超支' : '剩余'}}</text>
+          <text class="budget-num-value {{budgetInfo.over ? 't-danger' : 't-success'}} bold-num">¥{{budgetInfo.remainText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 支出表单 -->
+  <view class="container mt-20">
+    <view class="card form-card">
+      <view class="row-between mb-16">
+        <text class="group-title">费用申请</text>
+        <text class="fs-22 t-4">提交后状态为待审批</text>
+      </view>
+
+      <picker mode="selector" range="{{projects}}" range-key="label" value="{{projectIndex}}" bindchange="onProjectChange">
+        <view class="form-item">
+          <text class="form-label form-label-req">所属项目</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text wx:if="{{projectIndex > -1}}" class="ellipsis">{{projects[projectIndex].label}}</text>
+            <text wx:else class="form-placeholder">请选择项目</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <picker mode="selector" range="{{categoryList}}" value="{{categoryIndex}}" bindchange="onCategoryChange">
+        <view class="form-item">
+          <text class="form-label form-label-req">费用类型</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text>{{categoryList[categoryIndex]}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">支出金额</text>
+        <view class="form-value row" style="justify-content:flex-end">
+          <text class="amount-prefix">¥</text>
+          <input
+            class="form-input amount-input"
+            type="digit"
+            value="{{amount}}"
+            placeholder="0.00"
+            placeholder-class="form-placeholder"
+            bindinput="onAmountInput"
+          />
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">供应商 / 收款方</text>
+        <input
+          class="form-input"
+          value="{{supplier}}"
+          placeholder="选填，如材料商名称"
+          placeholder-class="form-placeholder"
+          maxlength="30"
+          bindinput="onSupplierInput"
+        />
+      </view>
+
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="form-item">
+          <text class="form-label form-label-req">支出日期</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text>{{date}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">备注</text>
+        <input
+          class="form-input"
+          value="{{remark}}"
+          placeholder="选填，用途说明"
+          placeholder-class="form-placeholder"
+          maxlength="50"
+          bindinput="onRemarkInput"
+        />
+      </view>
+    </view>
+
+    <view
+      class="btn btn-primary btn-block mt-32 {{canSubmit ? '' : 'btn-disabled'}}"
+      bindtap="onSubmit"
+    >提交审批</view>
+
+    <!-- 支出记录 -->
+    <view class="mt-8">
+      <t-section title="{{listTitle}}" sub="{{listHint}}" />
+    </view>
+
+    <view wx:if="{{expenseList.length === 0}}" class="card">
+      <t-empty icon="🧾" text="暂无支出记录" />
+    </view>
+    <view wx:else class="card list-card">
+      <view
+        wx:for="{{expenseList}}"
+        wx:key="id"
+        class="exp-item {{index === expenseList.length - 1 ? 'last' : ''}}"
+      >
+        <view class="exp-left">
+          <view class="row gap-8">
+            <text class="exp-category">{{item.category}}</text>
+            <t-tag text="{{item.status}}" type="{{item.statusType}}" size="small" />
+          </view>
+          <view class="exp-sub ellipsis">{{item.supplier}} · {{item.applicant}} · {{item.dateText}}</view>
+          <view wx:if="{{item.remark}}" class="exp-remark ellipsis">{{item.remark}}</view>
+        </view>
+        <view class="exp-amount bold-num">¥{{item.amountText}}</view>
+      </view>
+    </view>
+
+    <view class="foot-hint">审批通过后金额自动计入项目成本</view>
+    <view class="bottom-placeholder"></view>
+  </view>
+</view>

@@ -1,0 +1,54 @@
+.stat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.stat-label {
+  font-size: 24rpx;
+  color: var(--text-3);
+  display: flex;
+  align-items: baseline;
+}
+
+.stat-unit {
+  font-size: 20rpx;
+  margin-left: 4rpx;
+}
+
+.stat-value {
+  display: flex;
+  align-items: baseline;
+  margin-top: 10rpx;
+  flex-wrap: wrap;
+}
+
+.stat-num {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--text-1);
+  font-family: 'DIN Alternate', 'Helvetica Neue', sans-serif;
+  letter-spacing: -1rpx;
+  line-height: 1.2;
+}
+
+.stat-suffix {
+  font-size: 24rpx;
+  color: var(--text-2);
+  margin-left: 6rpx;
+}
+
+.stat-sub {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+
+.stat-sub.up {
+  color: var(--danger);
+}
+
+.stat-sub.down {
+  color: var(--success);
+}

@@ -1,0 +1,23 @@
+{
+  "name": "gongdi-xiaozhanggui",
+  "version": "1.3.1",
+  "private": true,
+  "description": "工地小掌柜 · 工地管理微信小程序（原生小程序，无需构建）",
+  "scripts": {
+    "test": "node tools/check.js && node tools/check-text.js && node tools/check-theme.js && node tools/check-api.js && node tools/test-store.js && node tools/test-team.js && node tools/test-cloud.js && node tools/test-delete.js && node tools/test-pages.js && node tools/test-flow.js && node tools/test-forms.js && node tools/audit-ui.js",
+    "test:static": "node tools/check.js",
+    "test:text": "node tools/check-text.js",
+    "test:theme": "node tools/check-theme.js",
+    "test:api": "node tools/check-api.js",
+    "test:store": "node tools/test-store.js",
+    "test:team": "node tools/test-team.js",
+    "test:cloud": "node tools/test-cloud.js",
+    "test:delete": "node tools/test-delete.js",
+    "test:pages": "node tools/test-pages.js",
+    "test:flow": "node tools/test-flow.js",
+    "test:forms": "node tools/test-forms.js",
+    "audit": "node tools/audit-ui.js",
+    "audit:write": "node tools/audit-ui.js --write",
+    "icons": "python tools/gen_icons.py"
+  }
+}

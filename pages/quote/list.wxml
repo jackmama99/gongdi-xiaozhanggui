@@ -1,0 +1,98 @@
+<view class="page">
+  <!-- 顶部统计 -->
+  <view class="head">
+    <view class="head-top row-between">
+      <view class="col">
+        <text class="head-label">报价总额</text>
+        <view class="row">
+          <text class="head-unit-sm">¥</text>
+          <text class="head-total bold-num">{{stat.totalText}}</text>
+        </view>
+      </view>
+      <text class="head-badge">共 {{stat.count}} 份</text>
+    </view>
+    <view class="head-sub row">
+      <view class="head-sub-item">
+        <text class="hs-label">已确认金额</text>
+        <text class="hs-value bold-num">¥ {{stat.confirmedText}}</text>
+      </view>
+      <view class="head-sub-item">
+        <text class="hs-label">平均单价</text>
+        <text class="hs-value bold-num">¥ {{stat.avgUnitText}}/㎡</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="tabs-scroll">
+    <view class="tabs-inner">
+      <view
+        wx:for="{{filters}}"
+        wx:key="key"
+        class="tab-chip {{activeFilter === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onFilterTap"
+      >
+        {{item.key}}<text class="tab-count">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="container list-wrap">
+    <view wx:if="{{loading}}" class="loading">加载中…</view>
+
+    <block wx:elif="{{list.length > 0}}">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="card card-hover quote"
+        data-id="{{item.id}}"
+        bindtap="onCardTap"
+      >
+        <view class="row-between">
+          <text class="q-no">{{item.no}}</text>
+          <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small" />
+        </view>
+
+        <text class="q-title ellipsis-2">{{item.title}}</text>
+
+        <view class="row mt-12">
+          <view class="q-avatar">{{item.avatar}}</view>
+          <text class="fs-26 t-2 ml-8">{{item.customerName}}</text>
+          <text class="q-dot">·</text>
+          <text class="fs-24 t-3">{{item.areaText}}</text>
+          <t-tag class="ml-8" text="{{item.projectType}}" type="blue" size="small" plain />
+        </view>
+
+        <view class="q-amount row-between">
+          <view class="col">
+            <text class="q-amount-label">报价合计</text>
+            <view class="row">
+              <text class="q-yen">¥</text>
+              <text class="q-money bold-num">{{item.totalText}}</text>
+            </view>
+          </view>
+          <view class="col q-unit">
+            <text class="q-unit-label">单方造价</text>
+            <text class="q-unit-value bold-num">¥ {{item.unitText}}/㎡</text>
+          </view>
+        </view>
+
+        <view class="q-foot row-between">
+          <text class="fs-22 t-4">{{item.createTimeText}} · {{item.creator}} · {{item.itemsCount}} 项明细</text>
+          <text class="fs-22 t-4">详情 ›</text>
+        </view>
+      </view>
+    </block>
+
+    <t-empty
+      wx:else
+      icon="🧾"
+      text="{{activeFilter === '全部' ? '暂无报价单，去创建第一份报价吧' : '该状态下暂无报价单'}}"
+      action="＋ 新建报价"
+      bind:action="onEmptyAction"
+    />
+  </view>
+
+  <view class="fab" bindtap="goCreate">＋</view>
+</view>

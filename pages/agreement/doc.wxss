@@ -1,0 +1,102 @@
+.doc-page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 32rpx 32rpx 80rpx;
+  box-sizing: border-box;
+}
+
+.doc-head {
+  padding: 8rpx 0 28rpx;
+}
+
+.doc-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--text-1);
+  line-height: 1.4;
+}
+
+.doc-meta {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.doc-lead {
+  background: var(--card);
+  border: 1rpx solid var(--line);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  font-size: 26rpx;
+  line-height: 1.8;
+  color: var(--text-2);
+}
+
+.doc-section {
+  margin-top: 32rpx;
+  background: var(--card);
+  border: 1rpx solid var(--line);
+  border-radius: 24rpx;
+  padding: 28rpx;
+}
+
+.doc-h {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 16rpx;
+}
+
+.doc-p {
+  font-size: 26rpx;
+  line-height: 1.85;
+  color: var(--text-2);
+  margin-bottom: 12rpx;
+}
+
+.doc-p:last-child {
+  margin-bottom: 0;
+}
+
+.doc-item {
+  padding: 20rpx 0;
+  border-top: 1rpx solid var(--line);
+}
+
+.doc-item:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.doc-item-title {
+  font-size: 27rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-bottom: 10rpx;
+}
+
+.doc-item-line {
+  font-size: 25rpx;
+  line-height: 1.75;
+  color: var(--text-2);
+  margin-bottom: 6rpx;
+}
+
+.doc-k {
+  display: inline-block;
+  min-width: 120rpx;
+  color: var(--text-3);
+  font-size: 24rpx;
+  margin-right: 12rpx;
+}
+
+.contact {
+  color: var(--primary);
+}
+
+.doc-foot {
+  margin-top: 40rpx;
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--text-4);
+}

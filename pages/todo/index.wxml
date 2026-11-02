@@ -1,0 +1,100 @@
+<view class="page">
+  <!-- 顶部统计 -->
+  <view class="top-bar">
+    <view class="top-item">
+      <view class="top-num bold-num">{{pendingCount}}</view>
+      <view class="top-label">待处理</view>
+    </view>
+    <view class="top-divider"></view>
+    <view class="top-item">
+      <view class="top-num bold-num">{{handledCount}}</view>
+      <view class="top-label">已处理</view>
+    </view>
+    <view class="top-tip">审批事项集中处理</view>
+  </view>
+
+  <!-- 筛选 -->
+  <view class="tabs-scroll">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab-chip {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchTab"
+    >{{item.name}}</view>
+  </view>
+
+  <view class="container mt-16">
+    <view wx:if="{{list.length > 0}}">
+      <view wx:for="{{list}}" wx:key="id" class="card todo-card">
+        <view class="row-between">
+          <view class="row gap-12">
+            <t-tag text="{{item.level}}" type="{{item.levelColor}}" size="small"></t-tag>
+            <t-tag text="{{item.type}}" type="blue" size="small" plain="{{true}}"></t-tag>
+          </view>
+          <text class="todo-time">{{item.timeText}}</text>
+        </view>
+
+        <view class="todo-title">{{item.title}}</view>
+        <view class="todo-desc">{{item.desc}}</view>
+
+        <view class="todo-foot">
+          <view class="foot-left">
+            <text class="foot-applicant">👤 {{item.applicant}}</text>
+          </view>
+          <view class="foot-actions">
+            <view class="btn btn-plain btn-sm" data-item="{{item}}" bindtap="goDetail">详情</view>
+            <view class="btn btn-primary btn-sm ml-16" data-id="{{item.id}}" bindtap="openHandle">处理</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="🎉" text="该分类下暂无待处理事项"></t-empty>
+    </view>
+  </view>
+
+  <!-- 处理弹窗 -->
+  <t-popup
+    visible="{{showPopup}}"
+    title="{{current ? current.type : '处理'}}"
+    cancelText="取消"
+    confirmText="通过"
+    bind:cancel="closePopup"
+    bind:confirm="doApprove"
+  >
+    <view wx:if="{{current}}" class="popup-content">
+      <view class="popup-title-text">{{current.title}}</view>
+      <view class="popup-sub">{{current.desc}}</view>
+
+      <view class="popup-row">
+        <text class="popup-label">类型</text>
+        <text class="popup-value">{{current.type}}</text>
+      </view>
+      <view class="popup-row">
+        <text class="popup-label">优先级</text>
+        <t-tag text="{{current.level}}" type="{{current.levelColor}}" size="small"></t-tag>
+      </view>
+      <view class="popup-row">
+        <text class="popup-label">申请人</text>
+        <text class="popup-value">{{current.applicant}}</text>
+      </view>
+
+      <view class="popup-field">
+        <view class="popup-field-label">审批意见（选填）</view>
+        <textarea
+          class="popup-textarea"
+          placeholder="请输入审批意见"
+          placeholder-class="popup-ph"
+          value="{{handleRemark}}"
+          bindinput="onRemarkInput"
+          maxlength="200"
+        ></textarea>
+      </view>
+
+      <view class="popup-actions">
+        <view class="btn btn-danger flex-1" bindtap="doReject">驳 回</view>
+      </view>
+    </view>
+  </t-popup>
+</view>

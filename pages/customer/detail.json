@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "客户详情",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-empty": "/components/empty/index",
+    "t-popup": "/components/popup/index",
+    "t-progress": "/components/progress-bar/index"
+  }
+}

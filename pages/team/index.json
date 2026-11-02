@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "团队",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-empty": "/components/empty/index",
+    "t-popup": "/components/popup/index"
+  }
+}

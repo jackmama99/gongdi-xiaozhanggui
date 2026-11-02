@@ -1,0 +1,67 @@
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+  line-height: 1.5;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.tag-small {
+  padding: 2rpx 10rpx;
+  font-size: 20rpx;
+  border-radius: 999rpx;
+}
+
+.tag-large {
+  padding: 8rpx 20rpx;
+  font-size: 24rpx;
+  border-radius: 12rpx;
+}
+
+.tag-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  margin-right: 8rpx;
+  background: currentColor;
+}
+
+.tag-blue {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.tag-green {
+  color: var(--success);
+  background: var(--success-light);
+}
+
+.tag-orange {
+  color: var(--warning);
+  background: var(--warning-light);
+}
+
+.tag-red {
+  color: var(--danger);
+  background: var(--danger-light);
+}
+
+.tag-gray {
+  color: var(--text-3);
+  background: var(--fill);
+}
+
+.tag-violet {
+  color: var(--violet);
+  background: var(--violet-light);
+}
+
+.tag-plain {
+  background: transparent;
+  border: 1rpx solid currentColor;
+  padding: 2rpx 12rpx;
+}

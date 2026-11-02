@@ -1,0 +1,210 @@
+<view class="page">
+  <view class="container">
+    <!-- 基本信息 -->
+    <t-section title="报价基本信息" sub="带 * 为必填" />
+    <view class="card">
+      <picker mode="selector" range="{{customers}}" range-key="label" value="{{customerIndex}}" bindchange="onCustomerChange">
+        <view class="form-item">
+          <text class="form-label form-label-req">选择客户</text>
+          <view class="form-value form-arrow {{customerName ? '' : 'form-placeholder'}}">
+            {{customerName || '请选择客户'}}
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item form-item-col">
+        <text class="form-label form-label-req">报价标题</text>
+        <input
+          class="input-block"
+          value="{{form.title}}"
+          placeholder="如：张明远 · 滨江壹号院 126㎡ 全包报价"
+          placeholder-class="form-placeholder"
+          data-field="title"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">建筑面积(㎡)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.area}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          data-field="area"
+          bindinput="onInput"
+        />
+      </view>
+
+      <picker mode="selector" range="{{projectTypes}}" value="{{projectTypeIndex}}" bindchange="onProjectTypeChange">
+        <view class="form-item">
+          <text class="form-label">项目类型</text>
+          <view class="form-value form-arrow">{{form.projectType}}</view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">管理费费率(%)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.manageRate}}"
+          placeholder="8"
+          placeholder-class="form-placeholder"
+          data-field="manageRate"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">设计费(元)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.designFee}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          data-field="designFee"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">优惠减免(元)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.discount}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          data-field="discount"
+          bindinput="onInput"
+        />
+      </view>
+    </view>
+
+    <!-- 明细编辑 -->
+    <t-section title="报价明细" sub="共 {{summary.count}} 项" />
+    <view wx:for="{{items}}" wx:key="key" class="card item-card">
+      <view class="item-title row-between">
+        <view class="row">
+          <text class="item-index">{{index + 1}}</text>
+          <text class="item-cat">{{item.category}}</text>
+        </view>
+        <view class="row">
+          <text class="mini-btn" data-index="{{index}}" bindtap="insertItem">＋插入</text>
+          <text class="mini-btn danger" data-index="{{index}}" bindtap="removeItem">删除</text>
+        </view>
+      </view>
+
+      <picker mode="selector" range="{{categories}}" value="{{item.categoryIndex}}" data-index="{{index}}" bindchange="onItemCategoryChange">
+        <view class="form-item">
+          <text class="form-label">分类</text>
+          <view class="form-value form-arrow">{{item.category}}</view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">名称</text>
+        <input
+          class="form-input"
+          value="{{item.name}}"
+          placeholder="如：墙地砖铺贴"
+          placeholder-class="form-placeholder"
+          data-index="{{index}}"
+          data-field="name"
+          bindinput="onItemInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">规格</text>
+        <input
+          class="form-input"
+          value="{{item.spec}}"
+          placeholder="如：人工+辅料"
+          placeholder-class="form-placeholder"
+          data-index="{{index}}"
+          data-field="spec"
+          bindinput="onItemInput"
+        />
+      </view>
+
+      <picker mode="selector" range="{{units}}" value="{{item.unitIndex}}" data-index="{{index}}" bindchange="onItemUnitChange">
+        <view class="form-item">
+          <text class="form-label">单位</text>
+          <view class="form-value form-arrow">{{item.unit}}</view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">数量</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{item.qty}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          data-index="{{index}}"
+          data-field="qty"
+          bindinput="onItemInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">单价(元)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{item.price}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          data-index="{{index}}"
+          data-field="price"
+          bindinput="onItemInput"
+        />
+      </view>
+
+      <view class="item-amount row-between">
+        <text class="ia-label">金额（数量 × 单价）</text>
+        <text class="ia-value bold-num">¥ {{item.amountText}}</text>
+      </view>
+    </view>
+
+    <view class="add-item" bindtap="addItem">＋ 添加一条报价明细</view>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+  <view class="bottom-placeholder-summary"></view>
+
+  <!-- 实时汇总 + 提交 -->
+  <view class="summary-bar">
+    <view class="sum-lines">
+      <view class="sum-line">
+        <text class="sl-k">明细小计</text>
+        <text class="sl-v bold-num">¥ {{summary.itemsAmountText}}</text>
+      </view>
+      <view class="sum-line">
+        <text class="sl-k">管理费</text>
+        <text class="sl-v bold-num">+ ¥ {{summary.manageFeeText}}</text>
+      </view>
+      <view class="sum-line">
+        <text class="sl-k">设计费</text>
+        <text class="sl-v bold-num">+ ¥ {{summary.designFeeText}}</text>
+      </view>
+      <view class="sum-line">
+        <text class="sl-k">优惠</text>
+        <text class="sl-v t-danger bold-num">− ¥ {{summary.discountText}}</text>
+      </view>
+    </view>
+    <view class="sum-total row-between">
+      <view class="row">
+        <text class="st-label">合计</text>
+        <text class="st-yen">¥</text>
+        <text class="st-num bold-num">{{summary.totalText}}</text>
+      </view>
+      <view class="btn btn-primary btn-sm" bindtap="onSubmit">{{isEdit ? '保存' : '提交'}}</view>
+    </view>
+  </view>
+</view>

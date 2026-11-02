@@ -1,0 +1,105 @@
+<view class="page">
+  <!-- 顶部统计 -->
+  <view class="head">
+    <view class="head-top row-between">
+      <view class="col">
+        <text class="head-label">合同总额</text>
+        <view class="row">
+          <text class="head-unit-sm">¥</text>
+          <text class="head-total bold-num">{{stat.totalText}}</text>
+        </view>
+      </view>
+      <text class="head-badge">共 {{stat.count}} 份</text>
+    </view>
+    <view class="head-sub row">
+      <view class="head-sub-item">
+        <text class="hs-label">已收金额</text>
+        <text class="hs-value success bold-num">¥ {{stat.receivedText}}</text>
+      </view>
+      <view class="head-sub-item">
+        <text class="hs-label">待收金额</text>
+        <text class="hs-value warning bold-num">¥ {{stat.pendingText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="tabs-scroll">
+    <view class="tabs-inner">
+      <view
+        wx:for="{{filters}}"
+        wx:key="key"
+        class="tab-chip {{activeFilter === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onFilterTap"
+      >
+        {{item.key}}<text class="tab-count">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="container list-wrap">
+    <view wx:if="{{loading}}" class="loading">加载中…</view>
+
+    <block wx:elif="{{list.length > 0}}">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="card card-hover contract"
+        data-id="{{item.id}}"
+        bindtap="onCardTap"
+      >
+        <view class="row-between">
+          <text class="c-no">{{item.no}}</text>
+          <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small" />
+        </view>
+
+        <text class="c-title ellipsis">{{item.title}}</text>
+
+        <view class="row mt-12">
+          <view class="c-avatar">{{item.avatar}}</view>
+          <text class="fs-26 t-2 ml-8">{{item.customerName}}</text>
+          <text class="c-dot">·</text>
+          <text class="fs-22 t-3">{{item.payMode}}</text>
+          <text wx:if="{{item.overdueCount > 0}}" class="overdue-flag">逾期 {{item.overdueCount}} 期</text>
+        </view>
+
+        <view class="c-amount row-between">
+          <view class="col">
+            <text class="c-amount-label">合同金额</text>
+            <view class="row">
+              <text class="c-yen">¥</text>
+              <text class="c-money bold-num">{{item.amountText}}</text>
+            </view>
+          </view>
+          <view class="c-wan col">
+            <text class="c-wan-text">{{item.amountWan}}</text>
+          </view>
+        </view>
+
+        <view class="c-pay">
+          <view class="row-between mb-16">
+            <text class="cp-label">收款进度</text>
+            <text class="cp-value">
+              已收 <text class="t-success bold-num">{{item.paidText}}</text> / 待收 <text class="t-warning bold-num">{{item.unpaidText}}</text>
+            </text>
+          </view>
+          <t-progress percent="{{item.paidRate}}" type="{{item.barType}}" showText="{{true}}" label="{{item.paidRate}}%" />
+        </view>
+
+        <view class="c-foot row-between">
+          <text class="fs-22 t-4">签约 {{item.signDateText}}</text>
+          <text class="fs-22 t-4">计划完工 {{item.planEndText}} ›</text>
+        </view>
+      </view>
+    </block>
+
+    <t-empty
+      wx:else
+      icon="📄"
+      text="{{activeFilter === '全部' ? '暂无合同，合同由报价单确认后生成' : '该状态下暂无合同'}}"
+      action="去看客户"
+      bind:action="onEmptyAction"
+    />
+  </view>
+</view>

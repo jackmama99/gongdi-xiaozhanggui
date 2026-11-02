@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "工作台",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-empty": "/components/empty/index",
+    "t-progress": "/components/progress-bar/index"
+  }
+}

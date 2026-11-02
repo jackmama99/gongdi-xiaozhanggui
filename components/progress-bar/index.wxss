@@ -1,0 +1,52 @@
+.pb {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.pb-track {
+  flex: 1;
+  border-radius: 8rpx;
+  background: var(--fill);
+  overflow: hidden;
+}
+
+.pb-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, #4a7fb5, var(--primary));
+  transition: width 0.3s ease;
+  min-width: 0;
+}
+
+.pb-fill.warning {
+  background: linear-gradient(90deg, #e3a86a, var(--warning));
+}
+
+.pb-fill.danger {
+  background: linear-gradient(90deg, #d27b73, var(--danger));
+}
+
+.pb-fill.success {
+  background: linear-gradient(90deg, #4cae95, var(--success));
+}
+
+.pb-text {
+  font-size: 22rpx;
+  color: var(--text-3);
+  flex-shrink: 0;
+  min-width: 60rpx;
+  text-align: right;
+}
+
+.pb-text.danger {
+  color: var(--danger);
+}
+
+.pb-text.warning {
+  color: var(--warning);
+}
+
+.pb-text.success {
+  color: var(--success);
+}

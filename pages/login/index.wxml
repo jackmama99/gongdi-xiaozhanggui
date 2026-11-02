@@ -1,0 +1,105 @@
+<view class="login-page">
+  <!-- 顶部品牌区 -->
+  <view class="hero">
+    <view class="brand-logo">工</view>
+    <view class="brand-name">工地小掌柜</view>
+    <view class="brand-desc">工地管理 · 一站式经营</view>
+  </view>
+
+  <!-- 登录卡片 -->
+  <view class="login-card">
+    <button
+      class="wechat-btn {{loading ? 'btn-dim' : ''}}"
+      bindtap="doWechatLogin"
+      disabled="{{loading}}"
+    >
+      {{loading ? '登录中...' : '微信一键登录'}}
+    </button>
+    <view class="wechat-hint">不用记账号密码，换手机也能登</view>
+
+    <view class="divider">
+      <view class="divider-line"></view>
+      <view class="divider-text">或使用账号登录</view>
+      <view class="divider-line"></view>
+    </view>
+
+    <view class="input-box">
+      <view class="input-icon">👤</view>
+      <input
+        class="input"
+        placeholder="请输入账号 / 手机号"
+        placeholder-class="input-ph"
+        value="{{account}}"
+        bindinput="onAccountInput"
+      />
+    </view>
+
+    <view class="input-box">
+      <view class="input-icon">🔒</view>
+      <input
+        class="input"
+        placeholder="请输入密码"
+        placeholder-class="input-ph"
+        password="{{!showPwd}}"
+        value="{{password}}"
+        bindinput="onPwdInput"
+      />
+      <view class="pwd-eye" bindtap="togglePwd">{{showPwd ? '🙈' : '👁'}}</view>
+    </view>
+
+    <view wx:if="{{errorMsg}}" class="login-error">⚠️ {{errorMsg}}</view>
+
+    <button
+      class="btn-login {{loading ? 'btn-dim' : ''}}"
+      bindtap="doLogin"
+      disabled="{{loading}}"
+    >
+      {{loading ? '登录中...' : '登 录'}}
+    </button>
+
+    <view wx:if="{{isDemo}}" class="demo-tip" bindtap="onDemoLogin">使用演示账号快速登录 →</view>
+
+    <!-- 协议同意（未勾选不采集手机号/微信身份） -->
+    <view class="agree-row {{agreeShake ? 'agree-shake' : ''}}">
+      <view class="agree-box {{agreed ? 'agree-box-on' : ''}}" bindtap="toggleAgree">
+        <text wx:if="{{agreed}}" class="agree-check">✓</text>
+      </view>
+      <view class="agree-text">
+        我已阅读并同意
+        <text class="agree-link" catchtap="goService">《用户服务协议》</text>
+        和
+        <text class="agree-link" catchtap="goPrivacy">《隐私政策》</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 没有账号入口 -->
+  <view class="links" bindtap="goTeamSetup">
+    <view class="links-main">没有账号？创建或加入团队 →</view>
+    <view class="links-sub">首次使用：创建公司团队，你将成为老板并拿到邀请码</view>
+    <view class="links-sub">已有团队：向老板索要 6 位邀请码加入</view>
+  </view>
+
+  <!-- 演示账号（仅演示模式） -->
+  <view wx:if="{{isDemo}}" class="account-panel">
+    <view class="account-title">演示账号（密码均为 123456）</view>
+    <view class="account-list">
+      <view
+        wx:for="{{accounts}}"
+        wx:key="account"
+        class="account-item"
+        data-item="{{item}}"
+        bindtap="fillAccount"
+      >
+        <view class="account-avatar">{{item.initial}}</view>
+        <view class="account-info">
+          <view class="account-name">{{item.name}}</view>
+          <view class="account-role">{{item.role}}</view>
+        </view>
+        <view class="account-code">{{item.account}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="login-footer">工地小掌柜 v{{version}}{{isDemo ? ' · 演示数据，仅供体验' : ''}}</view>
+</view>

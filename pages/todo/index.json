@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "待办审批",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-empty": "/components/empty/index",
+    "t-popup": "/components/popup/index"
+  }
+}

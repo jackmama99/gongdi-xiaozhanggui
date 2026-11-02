@@ -1,0 +1,4 @@
+<view wx:if="{{text}}" class="tag tag-{{type}} tag-{{size}} {{plain ? 'tag-plain' : ''}}">
+  <view wx:if="{{dot}}" class="tag-dot"></view>
+  <text>{{text}}</text>
+</view>

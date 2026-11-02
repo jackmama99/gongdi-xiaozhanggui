@@ -1,0 +1,150 @@
+/* 支出登记 */
+
+/* 预算卡 */
+.budget-card {
+  background: linear-gradient(135deg, #fff 0%, #f4f7f3 100%);
+  border-radius: 24rpx;
+  padding: 28rpx;
+  box-shadow: var(--shadow);
+  border: 1rpx solid var(--primary-light);
+}
+
+.budget-emoji {
+  font-size: 30rpx;
+}
+
+.budget-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  max-width: 340rpx;
+}
+
+.budget-no {
+  font-size: 22rpx;
+  color: var(--text-4);
+  flex-shrink: 0;
+  margin-left: 12rpx;
+}
+
+.budget-progress {
+  margin-top: 24rpx;
+}
+
+.budget-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.budget-progress-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.budget-progress-percent {
+  font-size: 24rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.budget-track {
+  height: 16rpx;
+  border-radius: 8rpx;
+}
+
+.budget-nums {
+  display: flex;
+  margin-top: 24rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx dashed var(--line);
+}
+
+.budget-num-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.budget-num-label {
+  font-size: 20rpx;
+  color: var(--text-3);
+}
+
+.budget-num-value {
+  font-size: 28rpx;
+  color: var(--text-1);
+  margin-top: 6rpx;
+}
+
+/* 表单 */
+.form-card {
+  padding: 28rpx;
+}
+
+.amount-prefix {
+  font-size: 30rpx;
+  color: var(--text-2);
+  font-weight: 600;
+  margin-right: 6rpx;
+}
+
+.amount-input {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* 支出记录 */
+.list-card {
+  padding: 0 28rpx;
+}
+
+.exp-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.exp-item.last {
+  border-bottom: none;
+}
+
+.exp-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.exp-category {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.exp-sub {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+}
+
+.exp-remark {
+  font-size: 20rpx;
+  color: var(--text-4);
+  margin-top: 4rpx;
+}
+
+.exp-amount {
+  font-size: 30rpx;
+  color: var(--text-1);
+  margin-left: 20rpx;
+  flex-shrink: 0;
+}
+
+.foot-hint {
+  text-align: center;
+  font-size: 20rpx;
+  color: var(--text-4);
+  padding: 32rpx 0 20rpx;
+}

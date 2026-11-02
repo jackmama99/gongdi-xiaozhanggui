@@ -1,0 +1,580 @@
+/* 经营报表 */
+
+/* ---------------- 核心指标 ---------------- */
+.kpi-hero {
+  border-radius: 28rpx;
+  padding: 32rpx;
+  background: var(--primary);
+  box-shadow: 0 12rpx 32rpx rgba(31, 47, 82, 0.26);
+}
+
+.kpi-hero-head {
+  position: relative;
+  z-index: 1;
+}
+
+.kpi-emoji {
+  font-size: 30rpx;
+  margin-right: 12rpx;
+}
+
+.kpi-hero-title {
+  font-size: 28rpx;
+  color: rgba(255, 255, 255, 0.86);
+  font-weight: 500;
+}
+
+.kpi-updated {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.kpi-hero-main {
+  margin-top: 26rpx;
+}
+
+.kpi-hero-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.kpi-hero-value {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 8rpx;
+}
+
+.kpi-hero-num {
+  font-size: 62rpx;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.kpi-hero-rate {
+  font-size: 22rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.kpi-rate-up {
+  color: #6fc7a4;
+  background: rgba(110, 231, 183, 0.16);
+}
+
+.kpi-rate-down {
+  color: var(--danger-light);
+  background: rgba(255, 168, 162, 0.16);
+}
+
+.kpi-hero-grid {
+  display: flex;
+  margin-top: 28rpx;
+  padding-top: 24rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.14);
+}
+
+.kpi-hero-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.kpi-hero-item-label {
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.kpi-hero-item-value {
+  font-size: 30rpx;
+  color: #fff;
+  margin-top: 6rpx;
+}
+
+/* 回款率 / 成本率 */
+.kpi-sub-grid {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+
+.kpi-sub {
+  flex: 1;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 22rpx 24rpx;
+  box-shadow: var(--shadow);
+}
+
+.kpi-sub-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.kpi-sub-value {
+  font-size: 32rpx;
+  margin: 6rpx 0 12rpx;
+}
+
+.kpi-track {
+  height: 10rpx;
+  border-radius: 8rpx;
+}
+
+/* ---------------- 柱状图 ---------------- */
+.chart-card {
+  padding: 28rpx 24rpx 20rpx;
+  display: flex;
+  align-items: stretch;
+}
+
+.chart-y {
+  width: 92rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-right: 12rpx;
+  height: 300rpx;
+}
+
+.chart-y-label {
+  font-size: 18rpx;
+  color: var(--text-4);
+  line-height: 1;
+}
+
+.chart-main {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  height: 300rpx;
+  border-left: 1rpx solid var(--line);
+  border-bottom: 1rpx solid var(--line);
+  padding: 0 4rpx;
+  min-width: 0;
+}
+
+.chart-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-width: 0;
+}
+
+.chart-bars {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  gap: 6rpx;
+  padding-bottom: 2rpx;
+}
+
+.chart-bar-wrap {
+  flex: 1;
+  max-width: 26rpx;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.chart-bar {
+  width: 100%;
+  border-radius: 8rpx 6rpx 0 0;
+  min-height: 8rpx;
+  position: relative;
+  transition: height 0.3s ease;
+}
+
+.chart-bar-income {
+  background: linear-gradient(180deg, #4cae95, var(--primary));
+}
+
+.chart-bar-cost {
+  background: linear-gradient(180deg, #e3a86a, var(--warning));
+}
+
+.chart-bar-tip {
+  position: absolute;
+  top: -34rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 16rpx;
+  color: var(--text-3);
+  white-space: nowrap;
+  display: none;
+}
+
+.chart-col-label {
+  font-size: 20rpx;
+  color: var(--text-3);
+  padding-top: 10rpx;
+  white-space: nowrap;
+  transform: scale(0.92);
+}
+
+/* 图例 */
+.chart-legend {
+  display: flex;
+  align-items: center;
+  gap: 28rpx;
+  padding: 18rpx 8rpx 0;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.legend-dot {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 8rpx;
+}
+
+.legend-income {
+  background: linear-gradient(180deg, #4cae95, var(--primary));
+}
+
+.legend-cost {
+  background: linear-gradient(180deg, #e3a86a, var(--warning));
+}
+
+.legend-profit {
+  flex: 1;
+  min-width: 0;
+}
+
+.legend-text {
+  font-size: 20rpx;
+  color: var(--text-3);
+}
+
+/* 月度明细 */
+.month-list {
+  margin-top: 20rpx;
+  padding: 8rpx 28rpx;
+}
+
+.month-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 76rpx;
+  border-bottom: 1rpx solid var(--line);
+  gap: 16rpx;
+}
+
+.month-row.last {
+  border-bottom: none;
+}
+
+.month-name {
+  font-size: 26rpx;
+  color: var(--text-2);
+  flex-shrink: 0;
+}
+
+.month-nums {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.month-income {
+  font-size: 22rpx;
+  color: var(--primary);
+}
+
+.month-cost {
+  font-size: 22rpx;
+  color: var(--warning);
+}
+
+.month-profit {
+  font-size: 22rpx;
+  font-weight: 600;
+}
+
+/* ---------------- 项目毛利排行 ---------------- */
+.rank-card {
+  padding: 8rpx 28rpx;
+}
+
+.rank-item {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.rank-item.last {
+  border-bottom: none;
+}
+
+.rank-head {
+  display: flex;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.rank-index {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 12rpx;
+  background: var(--fill);
+  color: var(--text-3);
+  font-size: 22rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rank-index-1 {
+  background: var(--warning-light);
+  color: var(--warning);
+}
+
+.rank-index-2 {
+  background: var(--line);
+  color: var(--text-3);
+}
+
+.rank-index-3 {
+  background: var(--danger-light);
+  color: var(--warning);
+}
+
+.rank-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.rank-profit {
+  font-size: 30rpx;
+  flex-shrink: 0;
+}
+
+.rank-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.rank-track {
+  flex: 1;
+  height: 14rpx;
+  border-radius: 8rpx;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.rank-fill {
+  height: 100%;
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, #4cae95, var(--primary));
+}
+
+.rank-fill.warning {
+  background: linear-gradient(90deg, #e3a86a, var(--warning));
+}
+
+.rank-fill.danger {
+  background: linear-gradient(90deg, #d27b73, var(--danger));
+}
+
+.rank-fill.success {
+  background: linear-gradient(90deg, #4cae95, var(--success));
+}
+
+.rank-rate {
+  font-size: 22rpx;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+
+.rank-meta {
+  display: flex;
+  gap: 24rpx;
+  margin-top: 12rpx;
+}
+
+.rank-meta-text {
+  font-size: 20rpx;
+  color: var(--text-3);
+}
+
+.rank-more {
+  text-align: center;
+  padding: 22rpx 0;
+  font-size: 24rpx;
+  color: var(--primary);
+}
+
+/* ---------------- 项目经理 ---------------- */
+.mgr-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+}
+
+.mgr-card {
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 26rpx;
+  box-shadow: var(--shadow);
+  border: 1rpx solid var(--line);
+}
+
+.mgr-avatar {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 32rpx;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 26rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mgr-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.mgr-sub {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+.mgr-nums {
+  display: flex;
+  margin-top: 22rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx dashed var(--line);
+}
+
+.mgr-num-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.mgr-num-label {
+  font-size: 20rpx;
+  color: var(--text-3);
+}
+
+.mgr-num-value {
+  font-size: 28rpx;
+  color: var(--text-1);
+  margin-top: 6rpx;
+}
+
+.mgr-rate-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18rpx;
+  margin-bottom: 10rpx;
+}
+
+.mgr-rate-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.mgr-rate-value {
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.mgr-track {
+  height: 12rpx;
+  border-radius: 8rpx;
+}
+
+/* ---------------- 来源转化 ---------------- */
+.src-card {
+  padding: 8rpx 28rpx;
+}
+
+.src-item {
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.src-item.last {
+  border-bottom: none;
+}
+
+.src-name {
+  font-size: 28rpx;
+  color: var(--text-1);
+  font-weight: 500;
+}
+
+.src-nums {
+  display: flex;
+  align-items: baseline;
+  gap: 12rpx;
+}
+
+.src-fraction {
+  font-size: 20rpx;
+  color: var(--text-2);
+}
+
+.src-fraction-total {
+  font-size: 20rpx;
+  color: var(--text-4);
+}
+
+.src-rate {
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.src-track {
+  height: 12rpx;
+  border-radius: 8rpx;
+  margin-top: 12rpx;
+}
+
+.row-hover {
+  background: var(--bg);
+}
+
+.foot-hint {
+  text-align: center;
+  font-size: 20rpx;
+  color: var(--text-4);
+  padding: 40rpx 0 20rpx;
+}
+
+
+.chart-empty {
+  padding: 60rpx 24rpx;
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-3);
+  line-height: 1.6;
+}

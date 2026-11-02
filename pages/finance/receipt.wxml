@@ -1,0 +1,193 @@
+<view class="page">
+
+  <!-- 合同信息卡 -->
+  <view wx:if="{{contractInfo}}" class="container mt-24">
+    <view class="ct-card">
+      <view class="row-between">
+        <view class="row gap-8 flex-1">
+          <text class="ct-emoji">📑</text>
+          <text class="ct-name ellipsis">{{contractInfo.customerName}}</text>
+          <t-tag text="{{contractInfo.statusText}}" type="{{contractInfo.statusType}}" size="small" />
+        </view>
+        <text class="ct-no">{{contractInfo.no}}</text>
+      </view>
+      <view class="ct-meta">
+        <text class="ct-project ellipsis">{{contractInfo.projectName}}</text>
+        <text class="ct-phone">{{contractInfo.phoneText}}</text>
+      </view>
+
+      <view class="ct-amounts">
+        <view class="ct-amount-item">
+          <text class="ct-amount-label">合同总额</text>
+          <text class="ct-amount-value bold-num">{{contractInfo.amountText}}</text>
+        </view>
+        <view class="ct-amount-item">
+          <text class="ct-amount-label">已收</text>
+          <text class="ct-amount-value t-success bold-num">{{contractInfo.paidText}}</text>
+        </view>
+        <view class="ct-amount-item">
+          <text class="ct-amount-label">待收</text>
+          <text class="ct-amount-value t-danger bold-num">{{contractInfo.remainText}}</text>
+        </view>
+      </view>
+
+      <view class="mt-16 row gap-16">
+        <view class="flex-1 progress-track">
+          <view class="progress-fill success" style="width:{{contractInfo.percent}}%"></view>
+        </view>
+        <text class="ct-percent">已收 {{contractInfo.percent}}%</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 表单 -->
+  <view class="container mt-20">
+    <view class="card form-card">
+      <view class="row-between mb-16">
+        <text class="group-title">收款信息</text>
+        <text class="fs-22 t-4">带 * 为必填</text>
+      </view>
+
+      <view class="form-item" bindtap="goContract" wx:if="{{contractInfo}}">
+        <text class="form-label form-label-req">合同</text>
+        <view class="form-value row" style="justify-content:flex-end">
+          <text class="ellipsis t-primary">查看合同详情</text>
+          <view class="arrow-right ml-16"></view>
+        </view>
+      </view>
+
+      <picker
+        mode="selector"
+        range="{{contracts}}"
+        range-key="label"
+        value="{{contractIndex}}"
+        disabled="{{lockContract}}"
+        bindchange="onContractChange"
+      >
+        <view class="form-item">
+          <text class="form-label form-label-req">选择合同</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text wx:if="{{contractIndex > -1}}" class="ellipsis">{{contracts[contractIndex].label}}</text>
+            <text wx:else class="form-placeholder">请选择合同</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <picker
+        mode="selector"
+        range="{{plans}}"
+        range-key="label"
+        value="{{planIndex}}"
+        disabled="{{plans.length === 0}}"
+        bindchange="onPlanChange"
+      >
+        <view class="form-item">
+          <text class="form-label form-label-req">收款期次</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text wx:if="{{planIndex > -1}}" class="ellipsis">{{plans[planIndex].name}}</text>
+            <text wx:elif="{{plans.length === 0 && contractIndex > -1}}" class="form-placeholder">该合同已无待收期次</text>
+            <text wx:else class="form-placeholder">请先选择合同</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <!-- 期次详情 -->
+      <view wx:if="{{currentPlan}}" class="plan-box">
+        <view class="row-between">
+          <text class="plan-name">{{currentPlan.name}}</text>
+          <t-tag wx:if="{{currentPlan.overdue}}" text="已逾期" type="red" size="small" />
+        </view>
+        <view class="plan-row">
+          <text class="t-3 fs-24">应收日期</text>
+          <text class="fs-24 t-2">{{currentPlan.dueDate}}</text>
+        </view>
+        <view class="plan-row">
+          <text class="t-3 fs-24">期次金额</text>
+          <text class="fs-24 t-2 bold-num">¥{{currentPlan.amountText}}</text>
+        </view>
+        <view class="plan-row">
+          <text class="t-3 fs-24">已收 / 待收</text>
+          <text class="fs-24 t-2">
+            <text class="t-success bold-num">¥{{currentPlan.paidText}}</text>
+            <text class="t-4"> / </text>
+            <text class="t-danger bold-num">¥{{currentPlan.remainText}}</text>
+          </text>
+        </view>
+        <view class="mt-12 row gap-16">
+          <view class="flex-1 progress-track">
+            <view class="progress-fill" style="width:{{currentPlan.percent}}%"></view>
+          </view>
+          <text class="ct-percent">{{currentPlan.percent}}%</text>
+        </view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">收款金额</text>
+        <view class="form-value row" style="justify-content:flex-end">
+          <text class="amount-prefix">¥</text>
+          <input
+            class="form-input amount-input"
+            type="digit"
+            value="{{amount}}"
+            placeholder="请输入金额"
+            placeholder-class="form-placeholder"
+            bindinput="onAmountInput"
+          />
+          <text wx:if="{{currentPlan}}" class="fill-all" bindtap="fillAll">全额</text>
+        </view>
+      </view>
+
+      <picker
+        mode="selector"
+        range="{{methodList}}"
+        value="{{methodIndex}}"
+        bindchange="onMethodChange"
+      >
+        <view class="form-item">
+          <text class="form-label form-label-req">收款方式</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text>{{methodList[methodIndex]}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <picker mode="date" value="{{date}}" bindchange="onDateChange">
+        <view class="form-item">
+          <text class="form-label form-label-req">收款日期</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text>{{date}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">备注</text>
+        <input
+          class="form-input"
+          value="{{remark}}"
+          placeholder="选填，如分期说明"
+          placeholder-class="form-placeholder"
+          maxlength="50"
+          bindinput="onRemarkInput"
+        />
+      </view>
+    </view>
+
+    <view class="tips">
+      <text class="tips-icon">💡</text>
+      <text class="tips-text">提交后系统自动更新合同分期状态与项目已收款进度，无需手工调整。</text>
+    </view>
+
+    <view
+      class="btn btn-primary btn-block mt-32 {{canSubmit && !saving ? '' : 'btn-disabled'}}"
+      disabled="{{!canSubmit || saving}}"
+      bindtap="onSubmit"
+    >确认登记</view>
+
+    <view class="bottom-placeholder"></view>
+  </view>
+</view>

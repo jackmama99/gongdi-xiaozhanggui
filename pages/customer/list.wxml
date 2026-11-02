@@ -1,0 +1,172 @@
+<view class="page">
+  <!-- 顶部统计 -->
+  <view class="head">
+    <view class="head-top row-between">
+      <view class="col">
+        <text class="head-label">客户总数</text>
+        <view class="row">
+          <text class="head-total bold-num">{{stats.total}}</text>
+          <text class="head-unit">位</text>
+        </view>
+      </view>
+      <view class="head-signed col">
+        <text class="head-label">已签约</text>
+        <view class="row">
+          <text class="head-signed-num bold-num">{{stats.signed}}</text>
+          <text class="head-unit">位</text>
+        </view>
+      </view>
+    </view>
+    <view class="funnel">
+      <view
+        wx:for="{{stats.list}}"
+        wx:key="name"
+        class="funnel-item"
+        data-key="{{item.name}}"
+        bindtap="onStatTap"
+        hover-class="funnel-item-hover"
+      >
+        <text class="funnel-num bold-num">{{item.count}}</text>
+        <text class="funnel-name">{{item.name}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="search-wrap">
+    <view class="search">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        value="{{keyword}}"
+        placeholder="搜索姓名 / 电话 / 小区"
+        placeholder-class="search-ph"
+        confirm-type="search"
+        bindinput="onSearchInput"
+      />
+      <text wx:if="{{keyword}}" class="search-clear" bindtap="onSearchClear">✕</text>
+    </view>
+  </view>
+
+  <!-- 状态筛选（自动换行，不横向滚动） -->
+  <view class="tabs-scroll">
+    <view class="tabs-inner">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="tab-chip {{activeStatus === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onTabTap"
+      >
+        {{item.key}}<text class="tab-count">{{item.count}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 跟进提醒快捷筛选 -->
+  <view class="tabs-scroll">
+    <view class="tabs-inner">
+      <view
+        wx:for="{{followTabs}}"
+        wx:key="key"
+        class="owner-chip {{followFilter === item.key ? 'owner-chip-on' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onFollowFilterTap"
+      >
+        {{item.name}}{{item.count ? ' ' + item.count : ''}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 负责人筛选（团队共享） -->
+  <view class="tabs-scroll">
+    <view class="tabs-inner">
+      <view
+        wx:for="{{ownerTabs}}"
+        wx:key="id"
+        class="owner-chip {{ownerFilter === item.id ? 'owner-chip-on' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onOwnerTap"
+      >
+        {{item.name}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 客户列表 -->
+  <view class="container list-wrap">
+    <view wx:if="{{loading}}" class="loading">加载中…</view>
+
+    <block wx:elif="{{list.length > 0}}">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="card card-hover customer"
+        data-id="{{item.id}}"
+        bindtap="onCardTap"
+      >
+        <view class="row-top">
+          <view class="avatar">{{item.avatar}}</view>
+          <view class="flex-1 ml-16">
+            <view class="row-between">
+              <view class="row">
+                <text class="name">{{item.name}}</text>
+                <t-tag
+                  class="ml-8"
+                  text="{{item.levelText}}"
+                  type="{{item.levelColor}}"
+                  size="small"
+                />
+              </view>
+              <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small" />
+            </view>
+
+            <view class="row mt-8">
+              <text class="row-icon">📞</text>
+              <text class="fs-24 t-2" data-phone="{{item.rawPhone}}" catchtap="onCall">{{item.phone}}</text>
+              <text class="src-tag">{{item.source}}</text>
+            </view>
+
+            <view class="row mt-8">
+              <text class="row-icon">🏠</text>
+              <text class="fs-24 t-2 ellipsis flex-1">{{item.house}}</text>
+              <text class="owner-tag">👤 {{item.ownerName}}</text>
+            </view>
+
+            <view class="meta">
+              <view class="meta-item">
+                <text class="meta-label">面积</text>
+                <text class="meta-value">{{item.areaText}}</text>
+              </view>
+              <view class="meta-item">
+                <text class="meta-label">预算</text>
+                <text class="meta-value t-primary bold-num">{{item.budgetText}}</text>
+              </view>
+              <view class="meta-item">
+                <text class="meta-label">最后跟进</text>
+                <text class="meta-value">{{item.lastFollowText}}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="foot">
+          <text class="foot-next {{item.nextCls}}">⏰ {{item.nextText}}</text>
+          <text class="foot-arrow">查看详情 ›</text>
+        </view>
+      </view>
+    </block>
+
+    <t-empty
+      wx:else
+      icon="👥"
+      text="{{hasFilter ? '没有符合条件的客户，换个筛选试试' : '还没有客户，去录入第一条线索吧'}}"
+      action="＋ 新增客户"
+      bind:action="onEmptyAction"
+    />
+
+    <view wx:if="{{hasMore}}" class="load-more" bindtap="onReachBottom">上拉 / 点击加载更多</view>
+  </view>
+
+  <view class="fab" bindtap="goCreate">＋</view>
+</view>

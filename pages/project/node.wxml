@@ -1,0 +1,106 @@
+<view class="page">
+  <!-- 顶部进度 -->
+  <view class="head">
+    <view class="head-name">{{project.name}}</view>
+    <view class="head-meta">{{project.startDate}} 开工 · 计划 {{project.planEndDate}} 完工</view>
+
+    <view class="head-progress">
+      <view class="hp-left">
+        <text class="hp-num bold-num">{{progress}}</text>
+        <text class="hp-unit">%</text>
+      </view>
+      <view class="hp-right">
+        <view class="hp-label">整体施工进度</view>
+        <view class="hp-count">已完成 {{doneCount}} / {{totalCount}} 个节点</view>
+      </view>
+    </view>
+
+    <view class="progress-track hp-track">
+      <view class="progress-fill" style="width:{{progress}}%"></view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 节点时间轴 -->
+    <view class="timeline">
+      <view wx:for="{{nodes}}" wx:key="id" class="tl-item">
+        <!-- 左侧轴 -->
+        <view class="tl-axis">
+          <view class="tl-dot dot-{{item.statusColor}}">
+            <text wx:if="{{item.isDone}}" class="tl-check">✓</text>
+            <text wx:elif="{{item.isRunning}}" class="tl-pulse"></text>
+          </view>
+          <view wx:if="{{index < nodes.length - 1}}" class="tl-line"></view>
+        </view>
+
+        <!-- 右侧内容 -->
+        <view class="tl-content">
+          <view class="tl-card {{item.isRunning ? 'tl-running' : ''}}" data-index="{{index}}" bindtap="toggleExpand">
+            <view class="row-between">
+              <view class="flex-1">
+                <view class="row gap-12">
+                  <text class="tl-seq">{{item.seq}}</text>
+                  <text class="tl-name">{{item.name}}</text>
+                </view>
+                <view class="tl-cat">{{item.category}} · 权重 {{item.weight}}%</view>
+              </view>
+              <view class="tl-right">
+                <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small"></t-tag>
+                <text class="tl-arrow">{{item.expanded ? '⌃' : '⌄'}}</text>
+              </view>
+            </view>
+
+            <view class="tl-dates">
+              <text class="tl-date">计划 {{item.planStart}} ~ {{item.planEnd}}</text>
+              <text wx:if="{{item.overdueDays > 0}}" class="tl-overdue">逾期 {{item.overdueDays}} 天</text>
+            </view>
+
+            <!-- 展开详情 -->
+            <view wx:if="{{item.expanded}}" class="tl-detail" catchtap="noop">
+              <view class="tl-divider"></view>
+              <view class="tl-info-row">
+                <text class="tl-info-k">实际开始</text>
+                <text class="tl-info-v">{{item.actualStart || '—'}}</text>
+              </view>
+              <view class="tl-info-row">
+                <text class="tl-info-k">实际完成</text>
+                <text class="tl-info-v {{item.actualEnd ? 't-success' : ''}}">{{item.actualEnd || '—'}}</text>
+              </view>
+              <view class="tl-info-row">
+                <text class="tl-info-k">负责人</text>
+                <text class="tl-info-v" data-name="{{item.owner || project.managerName}}" catchtap="callOwner">{{item.owner || project.managerName}} 📞</text>
+              </view>
+              <view wx:if="{{item.remark}}" class="tl-info-row">
+                <text class="tl-info-k">备注</text>
+                <text class="tl-info-v">{{item.remark}}</text>
+              </view>
+
+              <view class="tl-actions">
+                <view
+                  wx:if="{{item.canStart}}"
+                  class="btn btn-ghost btn-sm flex-1"
+                  data-id="{{item.id}}"
+                  data-name="{{item.name}}"
+                  catchtap="startNode"
+                >开始施工</view>
+                <view
+                  wx:if="{{item.isRunning}}"
+                  class="btn btn-primary btn-sm flex-1"
+                  data-id="{{item.id}}"
+                  data-name="{{item.name}}"
+                  catchtap="finishNode"
+                >标记完成</view>
+                <view wx:if="{{item.isDone}}" class="done-mark">✅ 该节点已完成</view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="tip-card">
+      💡 提示：节点按标准家装工序预设，完成上一节点后可开始下一节点。全部节点完成后，项目将自动转为「已完工」。
+    </view>
+    <view class="bottom-space"></view>
+  </view>
+</view>

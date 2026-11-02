@@ -1,0 +1,248 @@
+<view class="page">
+  <!-- 顶部信息卡 -->
+  <view class="hero">
+    <view class="hero-bg"></view>
+    <view class="hero-body">
+      <view class="row-between">
+        <view class="flex-1">
+          <view class="hero-name">{{project.name}}</view>
+          <view class="hero-no">{{project.no}}</view>
+        </view>
+        <t-tag text="{{project.status}}" type="{{project.statusColor}}" size="large"></t-tag>
+      </view>
+
+      <view class="hero-addr">📍 {{project.address}}</view>
+
+      <view class="hero-tags">
+        <text class="hero-tag">{{project.area}}㎡</text>
+        <text class="hero-tag">{{project.houseType}}</text>
+        <text class="hero-tag">{{project.projectType}}</text>
+        <text class="hero-tag">{{project.style}}</text>
+      </view>
+
+      <!-- 工期 -->
+      <view class="hero-time">
+        <view class="ht-item">
+          <text class="ht-k">开工</text>
+          <text class="ht-v">{{project.startDate}}</text>
+        </view>
+        <view class="ht-line"></view>
+        <view class="ht-item">
+          <text class="ht-k">计划完工</text>
+          <text class="ht-v">{{project.planEndDate}}</text>
+        </view>
+        <view class="ht-line"></view>
+        <view class="ht-item">
+          <text class="ht-k">剩余</text>
+          <text class="ht-v {{isOverdue ? 't-danger' : 't-success'}}">{{daysLeftText}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 进度 -->
+    <view class="card">
+      <view class="row-between">
+        <view class="group-title" style="font-size:28rpx">施工进度</view>
+        <text class="progress-big bold-num">{{project.progress}}%</text>
+      </view>
+      <view class="mt-16">
+        <t-progress percent="{{project.progress}}" height="{{16}}"></t-progress>
+      </view>
+      <view class="progress-meta">
+        <text>当前阶段：<text class="t-primary fw-600">{{project.currentStage}}</text></text>
+        <text>{{project.doneNodes}}/{{project.totalNodes}} 节点完成</text>
+      </view>
+      <view wx:if="{{project.overdueNodes > 0}}" class="overdue-tip">
+        ⚠️ 有 {{project.overdueNodes}} 个节点已逾期，请及时跟进
+      </view>
+    </view>
+
+    <!-- 财务概览（仅财务/老板可见） -->
+    <view wx:if="{{canFinance}}" class="card">
+      <view class="group-title" style="font-size:28rpx">项目财务</view>
+      <view class="fin-grid">
+        <view class="fin-cell">
+          <text class="fin-k">合同额</text>
+          <text class="fin-v bold-num">{{finance.contract}}</text>
+        </view>
+        <view class="fin-cell">
+          <text class="fin-k">已收款</text>
+          <text class="fin-v bold-num t-success">{{finance.received}}</text>
+        </view>
+        <view class="fin-cell">
+          <text class="fin-k">已支出</text>
+          <text class="fin-v bold-num t-warning">{{finance.cost}}</text>
+        </view>
+        <view class="fin-cell">
+          <text class="fin-k">预计毛利</text>
+          <text class="fin-v bold-num {{finance.profitRate > 20 ? 't-success' : 't-danger'}}">{{finance.profit}}</text>
+        </view>
+      </view>
+      <view class="fin-bar-wrap">
+        <view class="fin-bar-item">
+          <view class="row-between">
+            <text class="fin-bar-label">回款进度</text>
+            <text class="fin-bar-num">{{finance.receivedRate}}%</text>
+          </view>
+          <view class="progress-track mt-8">
+            <view class="progress-fill success" style="width:{{finance.receivedRate}}%"></view>
+          </view>
+        </view>
+        <view class="fin-bar-item">
+          <view class="row-between">
+            <text class="fin-bar-label">成本占比</text>
+            <text class="fin-bar-num">{{finance.costRate}}%</text>
+          </view>
+          <view class="progress-track mt-8">
+            <view class="progress-fill warning" style="width:{{finance.costRate}}%"></view>
+          </view>
+        </view>
+      </view>
+      <view class="fin-remain">
+        待收尾款 <text class="t-danger bold-num">{{finance.remainReceive}}</text> 元 · 毛利率 {{finance.profitRate}}%
+      </view>
+    </view>
+
+    <!-- 快捷入口 -->
+    <t-section title="功能入口"></t-section>
+    <view class="entry-grid">
+      <view
+        wx:for="{{entries}}"
+        wx:key="name"
+        class="entry-item"
+        data-item="{{item}}"
+        bindtap="goEntry"
+        hover-class="entry-hover"
+      >
+        <view class="entry-icon" style="background:{{item.color}}">{{item.icon}}</view>
+        <text class="entry-name">{{item.name}}</text>
+      </view>
+    </view>
+
+    <!-- 施工节点预览 -->
+    <t-section title="施工节点" extra="查看全部" bind:extra="goNode"></t-section>
+    <view class="card node-card">
+      <view wx:for="{{visibleNodes}}" wx:key="id" class="node-line">
+        <view class="node-dot-wrap">
+          <view class="node-dot dot-{{item.statusColor}}">
+            <text wx:if="{{item.status === '已完成'}}" class="node-check">✓</text>
+          </view>
+          <view wx:if="{{index < visibleNodes.length - 1}}" class="node-connector"></view>
+        </view>
+        <view class="node-body">
+          <view class="row-between">
+            <text class="node-name">{{item.name}}</text>
+            <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small"></t-tag>
+          </view>
+          <view class="node-time">
+            计划 {{item.planStart}} ~ {{item.planEnd}}
+            <text wx:if="{{item.actualEnd}}" class="t-success"> · 完成 {{item.actualEnd}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="node-all" bindtap="goNode">查看全部 {{project.totalNodes}} 个节点 ›</view>
+    </view>
+
+    <!-- 变更签证 -->
+    <t-section title="变更签证" sub="{{changes.length}} 条" extra="+ 新增" bind:extra="openChange"></t-section>
+    <view wx:if="{{changes.length > 0}}" class="card">
+      <view wx:for="{{changes}}" wx:key="id" class="change-item">
+        <view class="flex-1">
+          <view class="row gap-12">
+            <text class="change-title ellipsis">{{item.title}}</text>
+            <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small"></t-tag>
+          </view>
+          <view class="change-meta">{{item.no}} · {{item.applicant}} · {{item.time}}</view>
+        </view>
+        <view class="change-right">
+          <text class="change-amount bold-num">¥{{item.amount}}</text>
+          <view wx:if="{{item.confirmable}}" class="change-btn" data-id="{{item.id}}" catchtap="confirmChange">确认</view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="📝" text="暂无变更签证"></t-empty>
+    </view>
+
+    <!-- 新增变更弹窗 -->
+    <view wx:if="{{changeVisible}}" class="chg-mask" bindtap="closeChange">
+      <view class="chg-box" catchtap="noop">
+        <view class="chg-title">新增变更签证</view>
+        <input class="chg-input" placeholder="变更事项，如：增加吊顶" value="{{changeForm.title}}" bindinput="onChangeInput" data-field="title" />
+        <input class="chg-input" type="digit" placeholder="金额（元）" value="{{changeForm.amount}}" bindinput="onChangeInput" data-field="amount" />
+        <input class="chg-input" placeholder="说明（选填）" value="{{changeForm.remark}}" bindinput="onChangeInput" data-field="remark" />
+        <view class="chg-actions">
+          <view class="chg-btn" bindtap="closeChange">取消</view>
+          <view class="chg-btn chg-btn-primary" bindtap="submitChange">提交</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 巡检 -->
+    <t-section title="巡检记录" extra="全部记录" bind:extra="goInspect"></t-section>
+    <view wx:if="{{inspections.length > 0}}">
+      <view wx:for="{{inspections}}" wx:key="id" class="card insp-card">
+        <view class="row-between">
+          <text class="insp-type">{{item.type}}</text>
+          <t-tag text="{{item.result}}" type="{{item.resultColor}}" size="small"></t-tag>
+        </view>
+        <view class="insp-meta">
+          {{item.date}} · {{item.inspector}} · 检查项 {{item.passCount}}/{{item.totalCount}} 合格
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="✅" text="暂无巡检记录"></t-empty>
+    </view>
+
+    <!-- 项目团队 -->
+    <t-section title="项目团队"></t-section>
+    <view class="card">
+      <view class="team-row">
+        <view class="team-avatar">陈</view>
+        <view class="flex-1">
+          <view class="team-name">{{project.managerName}}</view>
+          <view class="team-role">项目经理</view>
+        </view>
+        <view class="team-tag">工程部</view>
+      </view>
+      <view class="team-row">
+        <view class="team-avatar">林</view>
+        <view class="flex-1">
+          <view class="team-name">{{project.designerName}}</view>
+          <view class="team-role">设计师</view>
+        </view>
+        <view class="team-tag">设计部</view>
+      </view>
+      <view class="team-row">
+        <view class="team-avatar">黄</view>
+        <view class="flex-1">
+          <view class="team-name">{{project.supervisorName}}</view>
+          <view class="team-role">监理</view>
+        </view>
+        <view class="team-tag">工程部</view>
+      </view>
+    </view>
+
+    <view class="customer-bar" bindtap="goCustomer">
+      <view class="cust-left">
+        <text class="cust-icon">👤</text>
+        <view>
+          <view class="cust-name">{{project.customerName}}</view>
+          <view class="cust-sub">业主 · 点击查看客户档案</view>
+        </view>
+      </view>
+      <view class="cust-call" catchtap="callCustomer">📞</view>
+    </view>
+
+    <view class="bottom-placeholder"></view>
+  </view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <view class="btn btn-plain flex-1" bindtap="goInspect">新增巡检</view>
+    <view class="btn btn-primary flex-1" bindtap="goNode">更新进度</view>
+  </view>
+</view>

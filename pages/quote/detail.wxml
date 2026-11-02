@@ -1,0 +1,116 @@
+<view class="page" wx:if="{{quote}}">
+  <!-- 顶部标题卡 -->
+  <view class="head">
+    <view class="row-between">
+      <text class="head-no">{{quote.no}}</text>
+      <t-tag text="{{quote.status}}" type="{{quote.statusColor}}" size="default" />
+    </view>
+    <text class="head-title">{{quote.title}}</text>
+    <view class="head-row row wrap">
+      <text class="head-chip" bindtap="goCustomer">👤 {{quote.customerName}} ›</text>
+      <text class="head-chip">📐 {{quote.areaText}}</text>
+      <text class="head-chip">🏷 {{quote.projectType}}</text>
+    </view>
+    <view class="head-row row">
+      <text class="head-meta">{{quote.createTimeText}} · {{quote.creator}} 创建 · {{quote.itemsCount}} 项明细</text>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 金额汇总 -->
+    <view class="amount-card">
+      <text class="ac-label">报价合计金额</text>
+      <view class="ac-total row">
+        <text class="ac-yen">¥</text>
+        <text class="ac-num bold-num">{{quote.totalText}}</text>
+      </view>
+      <text class="ac-wan">{{quote.totalWan}}</text>
+
+      <view class="ac-lines">
+        <view class="ac-line">
+          <text class="ac-line-k">明细小计</text>
+          <text class="ac-line-v bold-num">¥ {{quote.itemsAmountText}}</text>
+        </view>
+        <view class="ac-line">
+          <text class="ac-line-k">管理费（{{quote.manageRatePercent}}%）</text>
+          <text class="ac-line-v bold-num">+ ¥ {{quote.manageFeeText}}</text>
+        </view>
+        <view class="ac-line">
+          <text class="ac-line-k">设计费</text>
+          <text class="ac-line-v bold-num">+ ¥ {{quote.designFeeText}}</text>
+        </view>
+        <view class="ac-line">
+          <text class="ac-line-k">优惠减免</text>
+          <text class="ac-line-v t-danger bold-num">− ¥ {{quote.discountText}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 单价分析 -->
+    <view class="card unit-card">
+      <view class="unit-item">
+        <text class="unit-label">单方造价（含费）</text>
+        <text class="unit-value bold-num t-primary">¥ {{quote.unitText}}<text class="unit-unit">/㎡</text></text>
+      </view>
+      <view class="unit-divider"></view>
+      <view class="unit-item">
+        <text class="unit-label">单方基装（明细）</text>
+        <text class="unit-value bold-num">¥ {{quote.itemsUnitText}}<text class="unit-unit">/㎡</text></text>
+      </view>
+    </view>
+
+    <!-- 报价明细 -->
+    <t-section title="报价明细" sub="按工程分类汇总" />
+    <view wx:if="{{groups.length > 0}}">
+      <view wx:for="{{groups}}" wx:key="category" class="card group">
+        <view class="group-head row-between">
+          <view class="row">
+            <text class="group-name">{{item.category}}</text>
+            <text class="group-count">{{item.count}} 项</text>
+          </view>
+          <text class="group-sub bold-num">¥ {{item.subtotalText}}</text>
+        </view>
+
+        <view class="item-head row">
+          <text class="col-name">项目名称 / 规格</text>
+          <text class="col-qty">数量</text>
+          <text class="col-price">单价</text>
+          <text class="col-amount">金额</text>
+        </view>
+
+        <view wx:for="{{item.items}}" wx:for-item="row" wx:key="id" class="item-row row">
+          <view class="col-name">
+            <text class="item-name">{{row.name}}</text>
+            <text class="item-spec">{{row.spec}}</text>
+          </view>
+          <text class="col-qty">{{row.qty}}{{row.unit}}</text>
+          <text class="col-price">{{row.priceText}}</text>
+          <text class="col-amount bold-num">{{row.amountText}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="📋" text="暂无报价明细" />
+    </view>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <view wx:if="{{!hasContract}}" class="btn btn-plain" bindtap="goEdit">编辑</view>
+    <view wx:if="{{canDelete}}" class="btn btn-plain" bindtap="confirmDelete">删除</view>
+    <block wx:if="{{hasContract}}">
+      <view class="btn btn-primary flex-1" bindtap="goContract">查看合同</view>
+    </block>
+    <block wx:elif="{{canConfirm}}">
+      <view class="btn btn-ghost flex-1" bindtap="onConfirm">标记已确认</view>
+      <view class="btn btn-primary flex-1" bindtap="onConvertContract">转为合同</view>
+    </block>
+    <block wx:else>
+      <view class="btn btn-primary flex-1" bindtap="onConvertContract">转为合同</view>
+    </block>
+  </view>
+</view>
+
+<view wx:else class="loading">加载中…</view>

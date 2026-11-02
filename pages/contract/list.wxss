@@ -1,0 +1,191 @@
+/* ---------------- 顶部统计 ---------------- */
+.head {
+  background: var(--primary);
+  margin: 24rpx;
+  padding: 28rpx;
+  border-radius: 40rpx;
+}
+
+.head-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.head-unit-sm {
+  font-size: 26rpx;
+  color: rgba(255, 255, 255, 0.85);
+  margin-right: 6rpx;
+  margin-top: 8rpx;
+}
+
+.head-total {
+  font-size: 56rpx;
+  color: #fff;
+  line-height: 1.15;
+  margin-top: 6rpx;
+}
+
+.head-badge {
+  font-size: 22rpx;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 24rpx;
+  padding: 6rpx 20rpx;
+}
+
+.head-sub {
+  margin-top: 26rpx;
+  padding-top: 22rpx;
+  border-top: 1rpx solid rgba(255, 255, 255, 0.18);
+}
+
+.head-sub-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.hs-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.hs-value {
+  font-size: 30rpx;
+  color: #fff;
+  margin-top: 6rpx;
+}
+
+.hs-value.success {
+  color: var(--primary-light);
+}
+
+.hs-value.warning {
+  color: var(--warning-light);
+}
+
+/* ---------------- 筛选 ---------------- */
+.tabs-scroll {
+  margin-top: 8rpx;
+  background: transparent;
+  padding: 16rpx 0 8rpx;
+}
+
+.tabs-inner {
+  display: flex;
+  flex-direction: row;
+  
+  flex-wrap: wrap;
+}
+
+.tab-count {
+  font-size: 20rpx;
+  margin-left: 8rpx;
+  opacity: 0.72;
+}
+
+/* ---------------- 列表 ---------------- */
+.list-wrap {
+  padding-bottom: 60rpx;
+}
+
+.contract {
+  padding: 28rpx;
+}
+
+.c-no {
+  font-size: 22rpx;
+  color: var(--text-3);
+  letter-spacing: 0.5rpx;
+}
+
+.c-title {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  margin-top: 12rpx;
+}
+
+.c-avatar {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 20rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.c-dot {
+  font-size: 22rpx;
+  color: var(--text-4);
+  margin: 0 10rpx;
+}
+
+.overdue-flag {
+  font-size: 20rpx;
+  color: var(--danger);
+  background: var(--danger-light);
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  margin-left: auto;
+}
+
+.c-amount {
+  background: var(--fill);
+  border-radius: 16rpx;
+  padding: 18rpx 24rpx;
+  margin-top: 20rpx;
+}
+
+.c-amount-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.c-yen {
+  font-size: 24rpx;
+  color: var(--text-1);
+  font-weight: 600;
+  margin-right: 4rpx;
+  margin-top: 6rpx;
+}
+
+.c-money {
+  font-size: 40rpx;
+  color: var(--text-1);
+  line-height: 1.2;
+}
+
+.c-wan {
+  align-items: flex-end;
+}
+
+.c-wan-text {
+  font-size: 24rpx;
+  color: var(--text-3);
+}
+
+.c-pay {
+  margin-top: 20rpx;
+}
+
+.cp-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.cp-value {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.c-foot {
+  margin-top: 18rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid var(--line);
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "项目工地",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-empty": "/components/empty/index",
+    "t-progress": "/components/progress-bar/index"
+  }
+}

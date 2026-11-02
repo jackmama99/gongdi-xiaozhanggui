@@ -1,0 +1,134 @@
+<view class="page">
+  <view class="container">
+    <!-- 模式切换 -->
+    <view class="mode-tabs">
+      <view
+        class="mode-tab {{mode === 'join' ? 'mode-tab-on' : ''}}"
+        data-mode="join"
+        bindtap="switchMode"
+      >
+        加入团队
+      </view>
+      <view
+        class="mode-tab {{mode === 'create' ? 'mode-tab-on' : ''}}"
+        data-mode="create"
+        bindtap="switchMode"
+      >
+        创建团队
+      </view>
+    </view>
+
+    <!-- 模式说明 -->
+    <view class="setup-tip">
+      <text wx:if="{{mode === 'create'}}">填写公司名称即可创建团队，你将成为老板，系统自动生成邀请码给同事</text>
+      <text wx:else>输入老板给你的 6 位邀请码，加入后即可与同事共享客户和工地数据</text>
+    </view>
+
+    <!-- 个人资料（未登录时） -->
+    <view wx:if="{{needProfile}}" class="card">
+      <view class="group-title">我的信息</view>
+      <view class="form-item">
+        <view class="form-label">姓名</view>
+        <input
+          class="form-input"
+          placeholder="请输入你的姓名"
+          placeholder-class="form-ph"
+          value="{{name}}"
+          bindinput="onNameInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">手机号</view>
+        <input
+          class="form-input"
+          type="number"
+          maxlength="11"
+          placeholder="用于老板识别你"
+          placeholder-class="form-ph"
+          value="{{phone}}"
+          bindinput="onPhoneInput"
+        />
+      </view>
+    </view>
+
+    <!-- 加入团队 -->
+    <view wx:if="{{mode === 'join'}}" class="card">
+      <view class="group-title">输入邀请码</view>
+      <view class="code-box">
+        <input
+          class="code-input"
+          placeholder="6 位邀请码"
+          placeholder-class="form-ph"
+          maxlength="6"
+          value="{{inviteCode}}"
+          bindinput="onCodeInput"
+        />
+      </view>
+      <view class="form-hint">向你的老板索取邀请码，加入后即可与同事一起查看客户和工地</view>
+
+      <view class="form-item">
+        <view class="form-label">我的角色</view>
+        <view class="form-value form-value-readonly">加入后由老板分配</view>
+      </view>
+    </view>
+
+    <!-- 创建团队 -->
+    <view wx:if="{{mode === 'create'}}" class="card">
+      <view class="group-title">公司信息</view>
+      <view class="form-item">
+        <view class="form-label">公司 / 团队名称</view>
+        <input
+          class="form-input"
+          placeholder="如：杭州整装家居设计工程有限公司"
+          placeholder-class="form-ph"
+          value="{{companyName}}"
+          bindinput="onCompanyInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">所在城市</view>
+        <input
+          class="form-input"
+          placeholder="选填"
+          placeholder-class="form-ph"
+          value="{{city}}"
+          bindinput="onCityInput"
+        />
+      </view>
+      <view class="form-item">
+        <view class="form-label">业务类型</view>
+        <picker
+          mode="selector"
+          range="{{industryList}}"
+          value="{{industryIndex}}"
+          bindchange="onIndustryChange"
+        >
+          <view class="form-picker">{{industryList[industryIndex]}} ›</view>
+        </picker>
+      </view>
+      <view class="form-hint">创建后你将成为老板，可生成邀请码让同事加入</view>
+    </view>
+
+    <view wx:if="{{errorMsg}}" class="error-tip">⚠️ {{errorMsg}}</view>
+
+    <button
+      wx:if="{{mode === 'join'}}"
+      class="btn btn-primary btn-block submit-btn {{loading ? 'btn-disabled' : ''}}"
+      bindtap="submitJoin"
+      disabled="{{loading}}"
+    >
+      {{loading ? '处理中...' : '加入团队'}}
+    </button>
+
+    <button
+      wx:if="{{mode === 'create'}}"
+      class="btn btn-primary btn-block submit-btn {{loading ? 'btn-disabled' : ''}}"
+      bindtap="submitCreate"
+      disabled="{{loading}}"
+    >
+      {{loading ? '创建中...' : '创建团队并成为老板'}}
+    </button>
+
+    <view class="back-login" bindtap="goLogin">已有账号？返回登录</view>
+  </view>
+</view>

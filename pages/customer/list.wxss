@@ -1,0 +1,279 @@
+/* ---------------- 顶部统计 ---------------- */
+.head {
+  background: var(--primary);
+  margin: 24rpx;
+  padding: 28rpx 28rpx 0;
+  border-radius: 40rpx;
+}
+
+.head-top {
+  align-items: flex-end;
+}
+
+.head-label {
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.head-total {
+  font-size: 60rpx;
+  color: #fff;
+  line-height: 1.15;
+  margin-top: 6rpx;
+}
+
+.head-signed {
+  align-items: flex-end;
+}
+
+.head-signed-num {
+  font-size: 40rpx;
+  color: #fff;
+  line-height: 1.15;
+  margin-top: 6rpx;
+}
+
+.head-unit {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.78);
+  margin-left: 8rpx;
+}
+
+.funnel {
+  display: flex;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 20rpx 20rpx 0 0;
+  margin-top: 28rpx;
+  padding: 20rpx 0;
+}
+
+.funnel-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.funnel-item-hover {
+  opacity: 0.7;
+}
+
+.funnel-num {
+  font-size: 32rpx;
+  color: #fff;
+}
+
+.funnel-name {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 4rpx;
+}
+
+/* ---------------- 搜索 ---------------- */
+.search-wrap {
+  padding: 24rpx 24rpx 0;
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  height: 76rpx;
+  background: #fff;
+  border-radius: 40rpx;
+  padding: 0 28rpx;
+  box-shadow: var(--shadow);
+}
+
+.search-icon {
+  font-size: 26rpx;
+  margin-right: 12rpx;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-1);
+  min-width: 0;
+}
+
+.search-ph {
+  color: var(--text-4);
+  font-size: 28rpx;
+}
+
+.search-clear {
+  font-size: 26rpx;
+  color: var(--text-4);
+  padding: 0 4rpx 0 16rpx;
+}
+
+/* ---------------- 筛选 tab ---------------- */
+.tabs-scroll {
+  margin-top: 8rpx;
+  padding: 12rpx 0 4rpx;
+}
+
+.tabs-inner {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding-right: 20rpx;
+}
+
+.tab-count {
+  font-size: 20rpx;
+  margin-left: 8rpx;
+  opacity: 0.72;
+}
+
+/* ---------------- 列表 ---------------- */
+.list-wrap {
+  padding-bottom: 180rpx;
+}
+
+.customer {
+  padding: 28rpx;
+}
+
+.avatar {
+  width: 92rpx;
+  height: 92rpx;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 30rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.row-icon {
+  font-size: 22rpx;
+  margin-right: 10rpx;
+  opacity: 0.85;
+}
+
+.src-tag {
+  font-size: 20rpx;
+  color: var(--text-3);
+  background: var(--bg);
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  margin-left: auto;
+}
+
+.meta {
+  display: flex;
+  flex-direction: row;
+  margin-top: 18rpx;
+  background: var(--fill);
+  border-radius: 12rpx;
+  padding: 14rpx 12rpx;
+}
+
+.meta-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+}
+
+.meta-label {
+  font-size: 20rpx;
+  color: var(--text-3);
+}
+
+.meta-value {
+  font-size: 24rpx;
+  color: var(--text-1);
+  margin-top: 4rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+.foot-next {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.foot-next.warning {
+  color: var(--warning);
+}
+
+.foot-next.danger {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.foot-next.none {
+  color: var(--text-4);
+}
+
+.foot-arrow {
+  font-size: 22rpx;
+  color: var(--text-4);
+}
+
+/* 负责人筛选（团队共享） */
+.owner-chip {
+  flex-shrink: 0;
+  margin-left: 20rpx;
+  min-height: 52rpx;
+  line-height: 1.3;
+  padding: 8rpx 22rpx;
+  display: flex;
+  align-items: center;
+  margin-right: 14rpx;
+  border-radius: 24rpx;
+  background: #fff;
+  font-size: 24rpx;
+  color: var(--text-3);
+  border: 1rpx solid var(--line);
+}
+
+.owner-chip-on {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+  font-weight: 500;
+}
+
+/* 客户卡片上的负责人 */
+.owner-tag {
+  flex-shrink: 0;
+  font-size: 22rpx;
+  color: var(--violet, var(--violet));
+  background: var(--violet-light);
+  border-radius: 8rpx;
+  padding: 3rpx 12rpx;
+  margin-left: 10rpx;
+}
+
+/* 加载更多 */
+.load-more {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-3);
+  padding: 24rpx 0 40rpx;
+}

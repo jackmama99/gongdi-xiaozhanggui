@@ -1,0 +1,238 @@
+/* ---------------- 顶部统计头 ---------------- */
+.head {
+  background: var(--primary);
+  margin: 24rpx;
+  padding: 28rpx;
+  border-radius: 40rpx;
+}
+
+.head-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.head-sub {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.78);
+  margin-top: 8rpx;
+  max-width: 460rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.head-total {
+  display: flex;
+  align-items: baseline;
+  color: #fff;
+}
+
+.head-total-num {
+  font-size: 56rpx;
+  line-height: 1;
+}
+
+.head-total-unit {
+  font-size: 24rpx;
+  margin-left: 6rpx;
+  opacity: 0.85;
+}
+
+.head-grid {
+  display: flex;
+  background: rgba(255, 255, 255, 0.16);
+  border-radius: 16rpx;
+  margin-top: 26rpx;
+  padding: 18rpx 0;
+}
+
+.hg-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1rpx solid rgba(255, 255, 255, 0.2);
+}
+
+.hg-item:last-child {
+  border-right: none;
+}
+
+.hg-num {
+  font-size: 36rpx;
+  line-height: 1.1;
+  color: #fff;
+}
+
+.hg-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 6rpx;
+}
+
+/* ---------------- 项目筛选提示 ---------------- */
+.scope-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary-light);
+  padding: 18rpx 28rpx;
+}
+
+.scope-text {
+  font-size: 24rpx;
+  color: var(--primary);
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.scope-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.scope-link {
+  font-size: 24rpx;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+.scope-clear {
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-left: 20rpx;
+  padding-left: 20rpx;
+  border-left: 1rpx solid rgba(59, 110, 246, 0.25);
+}
+
+/* ---------------- 筛选条 ---------------- */
+.tabs-scroll {
+  white-space: nowrap;
+  background: #fff;
+  padding: 20rpx 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tab-count {
+  font-size: 20rpx;
+  margin-left: 8rpx;
+  opacity: 0.75;
+}
+
+.list-wrap {
+  padding-top: 20rpx;
+}
+
+/* ---------------- 工单卡片 ---------------- */
+.ticket {
+  margin-bottom: 20rpx;
+}
+
+.t-no {
+  font-size: 26rpx;
+  color: var(--text-3);
+  font-family: 'DIN Alternate', 'Helvetica Neue', sans-serif;
+}
+
+.t-type {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+}
+
+.t-divider {
+  font-size: 22rpx;
+  color: var(--text-4);
+  margin: 0 12rpx;
+}
+
+.t-customer {
+  font-size: 26rpx;
+  color: var(--text-2);
+}
+
+.t-project {
+  font-size: 22rpx;
+  color: var(--text-3);
+  max-width: 100%;
+}
+
+.t-desc {
+  font-size: 26rpx;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin-top: 16rpx;
+  background: var(--fill);
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+}
+
+.t-last {
+  display: flex;
+  align-items: center;
+  margin-top: 14rpx;
+  min-width: 0;
+}
+
+.t-last-label {
+  font-size: 20rpx;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  flex-shrink: 0;
+  margin-right: 10rpx;
+}
+
+.t-last-text {
+  font-size: 22rpx;
+  color: var(--text-3);
+  flex: 1;
+  min-width: 0;
+}
+
+.t-foot {
+  margin-top: 18rpx;
+  padding-top: 18rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+/* ---------------- 弹窗表单 ---------------- */
+.popup-form {
+  padding: 0 32rpx 20rpx;
+}
+
+.pf-block {
+  margin-top: 24rpx;
+}
+
+.pf-label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-2);
+  margin-bottom: 14rpx;
+}
+
+.pf-textarea {
+  width: 100%;
+  min-height: 160rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+  box-sizing: border-box;
+}
+
+.pf-ph {
+  color: var(--text-4);
+  font-size: 28rpx;
+}

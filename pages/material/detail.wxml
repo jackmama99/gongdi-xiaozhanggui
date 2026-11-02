@@ -1,0 +1,126 @@
+<view class="page">
+
+  <view wx:if="{{notFound}}" class="container mt-24">
+    <view class="card">
+      <t-empty icon="📦" text="材料不存在或已被删除" action="返回列表" bind:action="goList" />
+    </view>
+  </view>
+
+  <block wx:else>
+    <!-- 头部 -->
+    <view class="container mt-24">
+      <view class="head-card">
+        <view class="row-between">
+          <view class="row gap-8 flex-1">
+            <text class="head-emoji">📦</text>
+            <text class="head-name ellipsis">{{material.name}}</text>
+          </view>
+          <t-tag text="{{material.status}}" type="{{material.statusType}}" size="default" />
+        </view>
+
+        <view class="head-amount">
+          <text class="head-amount-symbol">¥</text>
+          <text class="head-amount-num bold-num">{{material.amountText}}</text>
+        </view>
+        <view class="head-amount-sub">{{material.amountWan}} · {{material.qty}}{{material.unit}} × ¥{{material.priceText}}</view>
+
+        <view class="head-tags">
+          <t-tag text="{{material.category}}" type="violet" size="small" />
+          <text class="head-no">{{material.no}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 基本信息 -->
+    <view class="container mt-8">
+      <t-section title="材料信息" />
+      <view class="card info-card">
+        <view class="info-row">
+          <text class="info-label">材料编号</text>
+          <text class="info-value">{{material.no}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">材料类别</text>
+          <text class="info-value">{{material.category}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">规格型号</text>
+          <text class="info-value">{{material.spec}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">单位</text>
+          <text class="info-value">{{material.unit}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">数量</text>
+          <text class="info-value bold-num">{{material.qty}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">单价</text>
+          <text class="info-value bold-num">¥{{material.priceText}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">金额</text>
+          <text class="info-value t-primary bold-num">¥{{material.amountText}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">供应商</text>
+          <text class="info-value">{{material.supplier}}</text>
+        </view>
+        <view class="info-row">
+          <text class="info-label">登记人</text>
+          <text class="info-value">{{material.keeper}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 所属项目 -->
+    <view class="container">
+      <t-section title="所属项目" />
+      <view class="card proj-card card-hover" hover-class="card-hover" bindtap="goProject">
+        <view class="proj-icon">🏗</view>
+        <view class="flex-1">
+          <view class="row gap-8">
+            <text class="proj-name ellipsis">{{material.projectName}}</text>
+            <t-tag wx:if="{{material.projectStatus}}" text="{{material.projectStatus}}" type="{{material.projectStatusType}}" size="small" />
+          </view>
+          <view class="proj-no" wx:if="{{material.projectNo}}">{{material.projectNo}}</view>
+        </view>
+        <view class="arrow-right"></view>
+      </view>
+    </view>
+
+    <!-- 采购进度时间轴 -->
+    <view class="container">
+      <t-section title="采购进度" sub="{{material.status}}" />
+
+      <view class="card timeline-card">
+        <view wx:for="{{steps}}" wx:key="name" class="tl-item">
+          <view class="tl-left">
+            <view class="tl-dot {{item.done ? 'tl-dot-done' : ''}} {{item.active ? 'tl-dot-active' : ''}}">
+              <text class="tl-dot-emoji">{{item.emoji}}</text>
+            </view>
+            <view wx:if="{{!item.isLast}}" class="tl-line {{item.done ? 'tl-line-done' : ''}}"></view>
+          </view>
+          <view class="tl-body {{item.isLast ? 'tl-body-last' : ''}}">
+            <view class="row-between">
+              <text class="tl-name {{item.done ? 'tl-name-done' : ''}}">{{item.name}}</text>
+              <t-tag wx:if="{{item.active}}" text="当前状态" type="{{material.statusType}}" size="small" />
+            </view>
+            <view wx:if="{{item.dateText && item.done}}" class="tl-date">{{item.dateText}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-placeholder"></view>
+
+    <!-- 底部操作栏 -->
+    <view class="bottom-bar">
+      <view class="btn btn-plain flex-1" bindtap="goList">返回列表</view>
+      <view wx:if="{{canDelete}}" class="btn btn-plain btn-danger-plain" bindtap="confirmDelete">删除</view>
+      <view wx:if="{{action}}" class="btn btn-primary flex-1" bindtap="onNext">{{action.label}}</view>
+      <view wx:elif="{{!canDelete}}" class="btn btn-disabled flex-1">该材料已使用完成</view>
+    </view>
+  </block>
+</view>

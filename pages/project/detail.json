@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "项目详情",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-empty": "/components/empty/index",
+    "t-progress": "/components/progress-bar/index"
+  }
+}

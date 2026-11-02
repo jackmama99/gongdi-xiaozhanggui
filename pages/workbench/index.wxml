@@ -1,0 +1,176 @@
+<view class="page wb-page">
+  <!-- 顶部头部（浅底 + 大标题 + 头像） -->
+  <view class="wb-head">
+    <view class="row-between">
+      <view class="flex-1">
+        <view class="head-date">{{today}}</view>
+        <view class="greet">{{greeting}}，{{user.name}}</view>
+        <view class="head-sub ellipsis">{{roleLine}} · {{team.name}}</view>
+      </view>
+      <view class="head-avatar">{{user.name ? user.name[0] : '工'}}</view>
+    </view>
+  </view>
+
+  <!-- 核心指标 -->
+  <view class="container">
+    <view class="summary">
+      <view
+        wx:for="{{statCards}}"
+        wx:key="label"
+        class="summary-cell"
+      >
+        <view class="summary-value">
+          <text class="bold-num">{{item.value}}</text>
+          <text wx:if="{{item.suffix}}" class="summary-suffix">{{item.suffix}}</text>
+        </view>
+        <view class="summary-label">{{item.label}}</view>
+        <view class="summary-sub ellipsis">{{item.sub}}</view>
+      </view>
+    </view>
+
+    <!-- 风险提醒 -->
+    <block wx:if="{{alerts.length > 0}}">
+      <t-section title="风险提醒" extra="全部" bind:extra="goTodo"></t-section>
+      <view class="alert-list">
+        <view
+          wx:for="{{alerts}}"
+          wx:key="id"
+          class="alert-item alert-{{item.type}}"
+          data-url="{{item.url}}"
+          bindtap="goAlert"
+        >
+          <view class="alert-icon">{{item.icon}}</view>
+          <view class="flex-1">
+            <view class="alert-text ellipsis">{{item.text}}</view>
+            <view class="alert-sub ellipsis">{{item.sub}}</view>
+          </view>
+          <view class="arrow-right"></view>
+        </view>
+      </view>
+    </block>
+
+    <!-- 待办 -->
+    <t-section title="待我处理" extra="{{todoCount > 0 ? '共' + todoCount + '项' : ''}}" bind:extra="goTodo"></t-section>
+    <view wx:if="{{todoList.length > 0}}" class="card todo-card">
+      <view
+        wx:for="{{todoList}}"
+        wx:key="id"
+        class="todo-item"
+        data-url="/pages/todo/index"
+        bindtap="goTodo"
+      >
+        <view class="todo-left">
+          <t-tag text="{{item.level}}" type="{{item.levelColor}}" size="small"></t-tag>
+        </view>
+        <view class="flex-1">
+          <view class="todo-title ellipsis">{{item.title}}</view>
+          <view class="todo-meta">
+            <text class="todo-type">{{item.type}}</text>
+            <text class="todo-dot">·</text>
+            <text>{{item.desc}}</text>
+          </view>
+        </view>
+        <text class="todo-time">{{item.time}}</text>
+      </view>
+      <view class="todo-more" bindtap="goTodo">
+        查看全部待办 <text class="todo-arrow">›</text>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="✅" text="太棒了，暂无待处理事项"></t-empty>
+    </view>
+
+    <!-- 今日施工：现场角色打开首页即可看到下一步要做什么 -->
+    <t-section title="今日施工" extra="{{todayTaskCount > 5 ? '共' + todayTaskCount + '项' : ''}}" bind:extra="goProjectAll"></t-section>
+    <view wx:if="{{todayTasks.length > 0}}" class="card today-task-card">
+      <view
+        wx:for="{{todayTasks}}"
+        wx:key="id"
+        class="today-task-item"
+        data-project-id="{{item.projectId}}"
+        bindtap="goNode"
+      >
+        <view class="today-task-dot {{item.danger ? 'today-task-dot-danger' : ''}}"></view>
+        <view class="flex-1">
+          <view class="today-task-title ellipsis">{{item.name}}</view>
+          <view class="today-task-meta ellipsis">{{item.projectName}} · {{item.owner}}</view>
+        </view>
+        <t-tag text="{{item.statusText}}" type="{{item.danger ? 'red' : 'blue'}}" size="small"></t-tag>
+      </view>
+    </view>
+    <view wx:else class="card today-empty-card">
+      <t-empty icon="📋" text="今天没有待处理的施工节点"></t-empty>
+    </view>
+
+    <!-- 快捷入口 -->
+    <t-section title="常用功能"></t-section>
+    <view class="quick-grid">
+      <view
+        wx:for="{{quickEntries}}"
+        wx:key="name"
+        class="quick-item"
+        data-item="{{item}}"
+        bindtap="goQuick"
+        hover-class="quick-item-hover"
+      >
+        <view class="quick-icon" style="background:{{item.color}}">{{item.icon}}</view>
+        <view class="quick-name">{{item.name}}</view>
+        <view class="quick-desc">{{item.desc}}</view>
+      </view>
+    </view>
+
+    <!-- 在建工地 -->
+    <t-section title="在建工地" sub="{{runningProjects.length}} 个进行中" extra="查看全部" bind:extra="goProjectAll"></t-section>
+    <view wx:if="{{runningProjects.length > 0}}">
+      <view
+        wx:for="{{runningProjects}}"
+        wx:key="id"
+        class="card project-card card-hover"
+        data-id="{{item.id}}"
+        bindtap="goProject"
+      >
+        <view class="row-between">
+          <view class="flex-1">
+            <view class="project-name ellipsis">{{item.name}}</view>
+            <view class="project-addr ellipsis">{{item.address}}</view>
+          </view>
+          <t-tag
+            text="{{item.danger ? '有风险' : '正常'}}"
+            type="{{item.danger ? 'red' : 'green'}}"
+            size="small"
+          ></t-tag>
+        </view>
+
+        <view class="project-stage">
+          <text class="stage-label">当前阶段</text>
+          <text class="stage-value">{{item.currentStage}}</text>
+          <text class="stage-progress">{{item.doneNodes}}/{{item.totalNodes}} 节点</text>
+        </view>
+
+        <view class="row gap-16 mt-12">
+          <t-progress percent="{{item.progress}}" height="{{12}}" showText="{{true}}" label="{{item.progress}}%"></t-progress>
+        </view>
+
+        <view class="project-foot">
+          <view class="foot-item">
+            <text class="foot-label">合同额</text>
+            <text class="foot-value">{{item.contractWan}}</text>
+          </view>
+          <view class="foot-item">
+            <text class="foot-label">项目经理</text>
+            <text class="foot-value">{{item.managerName}}</text>
+          </view>
+          <view class="foot-item">
+            <text class="foot-label">工期</text>
+            <text class="foot-value {{item.danger ? 't-danger' : ''}}">{{item.daysLeftText}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="🏗" text="暂无在建工地"></t-empty>
+    </view>
+
+    <view class="bottom-space"></view>
+  </view>
+</view>

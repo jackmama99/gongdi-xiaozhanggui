@@ -1,0 +1,230 @@
+.company-head {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.company-logo {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 24rpx;
+  background: var(--primary-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  flex-shrink: 0;
+}
+
+.company-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  line-height: 1.4;
+}
+
+.company-tag {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 22rpx 0;
+  border-bottom: 1rpx solid var(--line);
+  gap: 24rpx;
+}
+
+.info-row:last-child {
+  border-bottom: none;
+}
+
+.info-label {
+  font-size: 28rpx;
+  color: var(--text-3);
+  flex-shrink: 0;
+}
+
+.info-value {
+  font-size: 28rpx;
+  color: var(--text-1);
+  text-align: right;
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* 成员 */
+.member-row {
+  display: flex;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid var(--line);
+  gap: 18rpx;
+}
+
+.member-row:last-child {
+  border-bottom: none;
+}
+
+.member-avatar {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 40rpx;
+  background: var(--bg);
+  color: var(--text-3);
+  font-size: 22rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-align: center;
+  line-height: 1.1;
+  padding: 0 4rpx;
+  box-sizing: border-box;
+}
+
+.member-name {
+  font-size: 28rpx;
+  color: var(--text-1);
+  font-weight: 500;
+}
+
+.member-dept {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+.role-tag {
+  font-size: 22rpx;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+}
+
+/* 数据网格 */
+.db-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.db-item {
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14rpx 0;
+}
+
+.db-num {
+  font-size: 32rpx;
+  color: var(--text-1);
+  line-height: 1.2;
+}
+
+.db-name {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 4rpx;
+}
+
+/* 按钮 */
+.reset-btn {
+  margin-top: 40rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--warning);
+  box-shadow: var(--shadow);
+}
+
+.logout-btn {
+  margin-top: 20rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 28rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: var(--danger);
+  box-shadow: var(--shadow);
+}
+
+.bottom-space {
+  height: 60rpx;
+}
+
+
+/* ---------------- 修改密码弹窗 ---------------- */
+.pwd-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(22, 33, 29, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 210;
+  padding: 0 60rpx;
+}
+
+.pwd-box {
+  width: 100%;
+  background: #fff;
+  border-radius: 32rpx;
+  padding: 40rpx 32rpx 32rpx;
+}
+
+.pwd-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  text-align: center;
+  margin-bottom: 28rpx;
+}
+
+.pwd-input {
+  height: 88rpx;
+  line-height: 88rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  padding: 0 24rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+  margin-bottom: 18rpx;
+  box-sizing: border-box;
+}
+
+.pwd-error {
+  font-size: 24rpx;
+  color: var(--danger);
+  margin-bottom: 12rpx;
+}
+
+.pwd-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 12rpx;
+}
+
+.pwd-btn {
+  flex: 1;
+  min-height: 84rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 18rpx;
+  background: var(--fill);
+  color: var(--text-2);
+  font-size: 28rpx;
+}
+
+.pwd-btn-primary {
+  background: var(--primary);
+  color: #fff;
+}

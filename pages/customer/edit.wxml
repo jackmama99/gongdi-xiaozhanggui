@@ -1,0 +1,171 @@
+<view class="page">
+  <view class="container">
+    <!-- 基础信息 -->
+    <t-section title="基础信息" sub="带 * 为必填项" />
+    <view class="card">
+      <view class="form-item">
+        <text class="form-label form-label-req">客户姓名</text>
+        <input
+          class="form-input"
+          value="{{form.name}}"
+          placeholder="请输入客户姓名"
+          placeholder-class="form-placeholder"
+          data-field="name"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">联系电话</text>
+        <input
+          class="form-input"
+          type="text"
+          maxlength="13"
+          value="{{form.phone}}"
+          placeholder="手机号或座机，如 0571-88886666"
+          placeholder-class="form-placeholder"
+          data-field="phone"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">性别</text>
+        <view class="form-value row" style="justify-content: flex-end;">
+          <view
+            wx:for="{{genders}}"
+            wx:key="*this"
+            class="seg {{form.gender === item ? 'active' : ''}}"
+            data-value="{{item}}"
+            bindtap="onGenderTap"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+
+      <picker mode="selector" range="{{sources}}" value="{{sourceIndex}}" bindchange="onSourceChange">
+        <view class="form-item">
+          <text class="form-label">客户来源</text>
+          <view class="form-value form-arrow">{{form.source}}</view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">客户状态</text>
+        <view class="form-value form-value-readonly">{{form.status}}</view>
+      </view>
+
+      <view class="form-item form-item-block">
+        <text class="form-label">意向等级</text>
+        <view class="level-row">
+          <view
+            wx:for="{{levels}}"
+            wx:key="*this"
+            class="level-btn level-{{item}} {{form.level === item ? 'active' : ''}}"
+            data-value="{{item}}"
+            bindtap="onLevelTap"
+          >
+            <text class="level-letter">{{item}}</text>
+            <text class="level-tip">{{item === 'A' ? '高' : item === 'B' ? '中高' : item === 'C' ? '中' : '低'}}</text>
+          </view>
+        </view>
+      </view>
+
+      <picker mode="selector" range="{{ownerOptions}}" range-key="label" value="{{ownerIndex}}" bindchange="onOwnerChange">
+        <view class="form-item">
+          <text class="form-label">负责人</text>
+          <view class="form-value form-arrow">{{ownerName || '请选择'}}</view>
+        </view>
+      </picker>
+    </view>
+
+    <!-- 需求信息 -->
+    <t-section title="需求信息" />
+    <view class="card">
+      <view class="form-item">
+        <text class="form-label form-label-req">小区/地址</text>
+        <input
+          class="form-input"
+          value="{{form.house}}"
+          placeholder="如：滨江壹号院 3-1802"
+          placeholder-class="form-placeholder"
+          data-field="house"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">建筑面积(㎡)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.area}}"
+          placeholder="请输入面积"
+          placeholder-class="form-placeholder"
+          data-field="area"
+          bindinput="onInput"
+        />
+      </view>
+
+      <picker mode="selector" range="{{houseTypes}}" value="{{houseTypeIndex}}" bindchange="onHouseTypeChange">
+        <view class="form-item">
+          <text class="form-label">户型</text>
+          <view class="form-value form-arrow">{{form.houseType}}</view>
+        </view>
+      </picker>
+
+      <picker mode="selector" range="{{styles}}" value="{{styleIndex}}" bindchange="onStyleChange">
+        <view class="form-item">
+          <text class="form-label">风格偏好</text>
+          <view class="form-value form-arrow">{{form.style}}</view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">装修预算(元)</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.budget}}"
+          placeholder="如：320000"
+          placeholder-class="form-placeholder"
+          data-field="budget"
+          bindinput="onInput"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">下次跟进</text>
+        <view class="form-value row" style="justify-content: flex-end;">
+          <text wx:if="{{form.nextFollow}}" class="t-1 mr-8">{{form.nextFollow}}</text>
+          <text wx:else class="form-placeholder mr-8">未设置</text>
+          <text wx:if="{{form.nextFollow}}" class="link-clear" catchtap="onDateClear">清除</text>
+        </view>
+        <picker mode="date" value="{{form.nextFollow || todayDate}}" bindchange="onDateChange">
+          <view class="date-btn">选择</view>
+        </picker>
+      </view>
+
+      <view class="form-item form-item-block">
+        <text class="form-label">意向说明</text>
+        <textarea
+          class="textarea"
+          value="{{form.intention}}"
+          placeholder="客户装修需求、关注点、决策人等信息"
+          placeholder-class="form-placeholder"
+          maxlength="300"
+          data-field="intention"
+          bindinput="onInput"
+        />
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+
+  <view class="bottom-bar">
+    <view class="btn btn-plain flex-1" bindtap="onCancel">取消</view>
+    <view class="btn btn-primary flex-1" bindtap="onSubmit">{{isEdit ? '保存修改' : '新增客户'}}</view>
+  </view>
+</view>

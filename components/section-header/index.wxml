@@ -1,0 +1,11 @@
+<view class="sh">
+  <view class="sh-left">
+    <view wx:if="{{bar}}" class="sh-bar" style="background:{{barColor}}"></view>
+    <text class="sh-title">{{title}}</text>
+    <text wx:if="{{sub}}" class="sh-sub">{{sub}}</text>
+  </view>
+  <view wx:if="{{extra}}" class="sh-extra" bindtap="onExtra">
+    <text>{{extra}}</text>
+    <view class="sh-arrow"></view>
+  </view>
+</view>

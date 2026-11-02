@@ -1,0 +1,82 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/team/setup",
+    "pages/workbench/index",
+    "pages/project/list",
+    "pages/project/detail",
+    "pages/project/node",
+    "pages/project/inspect",
+    "pages/aftersale/list",
+    "pages/aftersale/detail",
+    "pages/customer/list",
+    "pages/customer/detail",
+    "pages/customer/edit",
+    "pages/quote/list",
+    "pages/quote/detail",
+    "pages/quote/edit",
+    "pages/contract/list",
+    "pages/contract/detail",
+    "pages/finance/index",
+    "pages/finance/receipt",
+    "pages/finance/expense",
+    "pages/material/list",
+    "pages/material/detail",
+    "pages/report/index",
+    "pages/todo/index",
+    "pages/mine/index",
+    "pages/team/index",
+    "pages/setting/index",
+    "pages/agreement/service",
+    "pages/agreement/privacy"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#F5F3EF",
+    "navigationBarTitleText": "工地小掌柜",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F3EF",
+    "navigationStyle": "default"
+  },
+  "tabBar": {
+    "color": "#84928C",
+    "selectedColor": "#1D4E89",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/workbench/index",
+        "text": "工作台",
+        "iconPath": "icons/tab_work.png",
+        "selectedIconPath": "icons/tab_work_on.png"
+      },
+      {
+        "pagePath": "pages/project/list",
+        "text": "项目",
+        "iconPath": "icons/tab_project.png",
+        "selectedIconPath": "icons/tab_project_on.png"
+      },
+      {
+        "pagePath": "pages/customer/list",
+        "text": "客户",
+        "iconPath": "icons/tab_customer.png",
+        "selectedIconPath": "icons/tab_customer_on.png"
+      },
+      {
+        "pagePath": "pages/finance/index",
+        "text": "财务",
+        "iconPath": "icons/tab_finance.png",
+        "selectedIconPath": "icons/tab_finance_on.png"
+      },
+      {
+        "pagePath": "pages/mine/index",
+        "text": "我的",
+        "iconPath": "icons/tab_mine.png",
+        "selectedIconPath": "icons/tab_mine_on.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

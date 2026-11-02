@@ -1,0 +1,280 @@
+<view class="page" wx:if="{{customer}}">
+  <!-- 客户头部卡 -->
+  <view class="head">
+    <view class="row-top">
+      <view class="avatar">{{customer.avatar}}</view>
+      <view class="flex-1 ml-16">
+        <view class="row-between">
+          <view class="row">
+            <text class="head-name">{{customer.name}}</text>
+            <t-tag class="ml-8" text="{{customer.levelText}}" type="{{customer.levelColor}}" size="small" />
+          </view>
+          <t-tag text="{{customer.status}}" type="{{customer.statusColor}}" />
+        </view>
+        <text class="head-desc">{{customer.levelDesc}}</text>
+        <view class="row mt-16">
+          <text class="head-chip" data-phone="{{customer.phone}}" catchtap="onCall">📞 {{customer.phoneMasked}}</text>
+          <text class="head-chip">{{customer.source}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="head-grid">
+      <view class="head-grid-item">
+        <text class="hg-label">面积</text>
+        <text class="hg-value">{{customer.areaText}}</text>
+      </view>
+      <view class="head-grid-item">
+        <text class="hg-label">预算</text>
+        <text class="hg-value t-primary">{{customer.budgetText}}</text>
+      </view>
+      <view class="head-grid-item">
+        <text class="hg-label">下次跟进</text>
+        <text class="hg-value {{customer.nextFollowCls}}">{{customer.nextFollowText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 需求信息 -->
+    <t-section title="需求信息" sub="客户装修需求画像" />
+    <view class="card">
+      <view class="kv">
+        <text class="kv-k">小区 / 地址</text>
+        <text class="kv-v">{{customer.house}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">户型</text>
+        <text class="kv-v">{{customer.houseType}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">面积</text>
+        <text class="kv-v">{{customer.areaText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">风格偏好</text>
+        <text class="kv-v">{{customer.style}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">预算</text>
+        <text class="kv-v t-primary bold-num">¥ {{customer.budgetFull}}</text>
+      </view>
+      <view class="kv kv-block">
+        <text class="kv-k">意向说明</text>
+        <text class="kv-v kv-multi">{{customer.intention}}</text>
+      </view>
+      <view wx:if="{{customer.tags.length > 0}}" class="tags row wrap mt-16">
+        <t-tag wx:for="{{customer.tags}}" wx:key="*this" class="mr-8 mb-16" text="{{item}}" type="violet" size="small" plain />
+      </view>
+    </view>
+
+    <!-- 归属信息 -->
+    <t-section title="归属信息" />
+    <view class="card">
+      <view class="kv">
+        <text class="kv-k">负责人</text>
+        <text class="kv-v">{{customer.ownerName}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">客户编号</text>
+        <text class="kv-v">{{customer.no}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">创建时间</text>
+        <text class="kv-v">{{customer.createTimeText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">最后跟进</text>
+        <text class="kv-v">{{customer.lastFollowText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">下次跟进</text>
+        <text class="kv-v {{customer.nextFollowCls}}">
+          {{customer.nextFollowText}}<text wx:if="{{customer.nextFollowTip}}" class="tip-inline"> · {{customer.nextFollowTip}}</text>
+        </text>
+      </view>
+      <view wx:if="{{customer.projectName}}" class="kv" bindtap="goProject">
+        <text class="kv-k">关联项目</text>
+        <text class="kv-v t-primary">{{customer.projectName}} ›</text>
+      </view>
+    </view>
+
+    <!-- Tab 切换 -->
+    <view class="tabbar">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="key"
+        class="tabbar-item {{tab === item.key ? 'active' : ''}}"
+        data-key="{{item.key}}"
+        bindtap="onTabTap"
+      >
+        <text>{{item.name}}</text>
+        <text class="tabbar-count">{{item.count}}</text>
+      </view>
+    </view>
+
+    <!-- 跟进记录时间轴 -->
+    <block wx:if="{{tab === 'follow'}}">
+      <view wx:if="{{follows.length > 0}}" class="card">
+        <view wx:for="{{follows}}" wx:key="id" class="tl-item">
+          <view class="tl-axis">
+            <view class="tl-dot {{index === 0 ? 'first' : ''}}"></view>
+            <view wx:if="{{index !== follows.length - 1}}" class="tl-line"></view>
+          </view>
+          <view class="tl-body">
+            <view class="row-between">
+              <view class="row">
+                <t-tag text="{{item.type}}" type="{{item.typeColor}}" size="small" />
+                <text wx:if="{{item.result}}" class="tl-result">{{item.result}}</text>
+              </view>
+              <text class="tl-time">{{item.timeText}}</text>
+            </view>
+            <text class="tl-content">{{item.content}}</text>
+            <text class="tl-owner">跟进人 · {{item.ownerName}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:else class="card">
+        <t-empty icon="📝" text="还没有跟进记录" action="＋ 新增跟进" bind:action="openFollowPopup" />
+      </view>
+    </block>
+
+    <!-- 报价单 -->
+    <block wx:elif="{{tab === 'quote'}}">
+      <block wx:if="{{quotes.length > 0}}">
+        <view
+          wx:for="{{quotes}}"
+          wx:key="id"
+          class="card card-hover"
+          data-id="{{item.id}}"
+          bindtap="goQuoteDetail"
+        >
+          <view class="row-between">
+            <text class="fs-28 fw-600 ellipsis flex-1">{{item.title}}</text>
+            <t-tag class="ml-8" text="{{item.status}}" type="{{item.statusColor}}" size="small" />
+          </view>
+          <view class="row-between mt-12">
+            <text class="fs-22 t-3">{{item.no}} · {{item.area}}㎡ · {{item.itemsCount}} 项</text>
+            <text class="fs-30 t-primary bold-num">¥ {{item.totalText}}</text>
+          </view>
+          <view class="row-between mt-8">
+            <text class="fs-22 t-4">创建于 {{item.createTimeText}}</text>
+            <text class="fs-22 t-4">查看明细 ›</text>
+          </view>
+        </view>
+      </block>
+      <view wx:else class="card">
+        <t-empty icon="🧾" text="该客户暂无报价单" action="＋ 新建报价" bind:action="goCreateQuote" />
+      </view>
+    </block>
+
+    <!-- 合同 -->
+    <block wx:else>
+      <block wx:if="{{contracts.length > 0}}">
+        <view
+          wx:for="{{contracts}}"
+          wx:key="id"
+          class="card card-hover"
+          data-id="{{item.id}}"
+          bindtap="goContractDetail"
+        >
+          <view class="row-between">
+            <text class="fs-28 fw-600 ellipsis flex-1">{{item.title}}</text>
+            <t-tag class="ml-8" text="{{item.status}}" type="{{item.statusColor}}" size="small" />
+          </view>
+          <view class="row-between mt-12">
+            <text class="fs-22 t-3">{{item.no}} · 签约 {{item.signDateText}}</text>
+            <text class="fs-30 t-primary bold-num">¥ {{item.amountText}}</text>
+          </view>
+          <view class="mt-12">
+            <t-progress percent="{{item.rate}}" type="success" showText="{{true}}" label="已收 {{item.paidText}}" />
+          </view>
+        </view>
+      </block>
+      <view wx:else class="card">
+        <t-empty icon="📄" text="该客户暂无合同" />
+      </view>
+    </block>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar">
+    <view class="btn btn-plain flex-1" bindtap="openFollowPopup">新增跟进</view>
+    <view class="btn btn-primary flex-1" bindtap="goCreateQuote">新建报价</view>
+    <view class="more-btn" bindtap="onMore">⋯</view>
+  </view>
+
+  <!-- 新增跟进弹窗 -->
+  <t-popup
+    visible="{{popupVisible}}"
+    title="新增跟进记录"
+    max-height="85vh"
+    confirmText="保存"
+    bind:cancel="closeFollowPopup"
+    bind:confirm="confirmFollow"
+  >
+    <view class="popup-form">
+      <view class="pf-block">
+        <text class="pf-label">跟进方式</text>
+        <view class="chips">
+          <view
+            wx:for="{{followTypes}}"
+            wx:key="*this"
+            class="chip {{followForm.type === item ? 'active' : ''}}"
+            data-value="{{item}}"
+            bindtap="onFollowTypeTap"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+
+      <view class="pf-block">
+        <text class="pf-label">跟进内容</text>
+        <textarea
+          class="pf-textarea"
+          value="{{followForm.content}}"
+          placeholder="记录本次沟通要点、客户反馈…"
+          placeholder-class="pf-ph"
+          maxlength="300"
+          bindinput="onFollowContentInput"
+        />
+      </view>
+
+      <view class="pf-block">
+        <text class="pf-label">下次跟进</text>
+        <picker
+          mode="date"
+          value="{{followForm.nextFollow}}"
+          start="{{todayStr}}"
+          bindchange="onNextFollowChange"
+        >
+          <view class="pf-date">
+            <text class="{{followForm.nextFollow ? '' : 'pf-date-empty'}}">{{followForm.nextFollow || '不设置'}}</text>
+            <text class="pf-date-arrow">›</text>
+          </view>
+        </picker>
+        <text wx:if="{{followForm.nextFollow}}" class="pf-date-clear" bindtap="onClearNextFollow">清除</text>
+      </view>
+
+      <view class="pf-block">
+        <text class="pf-label">跟进结果</text>
+        <view class="chips">
+          <view
+            wx:for="{{followResultOptions}}"
+            wx:key="*this"
+            class="chip {{followForm.result === item ? 'active' : ''}}"
+            data-value="{{item}}"
+            bindtap="onFollowResultTap"
+          >
+            {{item}}
+          </view>
+        </view>
+      </view>
+    </view>
+  </t-popup>
+</view>
+
+<view wx:else class="loading">加载中…</view>

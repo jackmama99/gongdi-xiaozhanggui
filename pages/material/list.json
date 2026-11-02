@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "材料采购",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-empty": "/components/empty/index",
+    "t-popup": "/components/popup/index"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "客户信息",
+  "usingComponents": {
+    "t-section": "/components/section-header/index",
+    "t-tag": "/components/tag/index"
+  }
+}

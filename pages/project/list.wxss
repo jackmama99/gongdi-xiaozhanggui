@@ -1,0 +1,195 @@
+.overview {
+  display: flex;
+  align-items: center;
+  background: var(--card);
+  border: 1rpx solid var(--line);
+  border-radius: var(--radius);
+  padding: 28rpx 0;
+  margin: 24rpx 24rpx 20rpx;
+}
+
+.ov-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ov-num {
+  font-size: 42rpx;
+  color: var(--text-1);
+  line-height: 1.2;
+}
+
+.ov-unit {
+  font-size: 24rpx;
+  color: var(--text-2);
+  margin-left: 2rpx;
+}
+
+.ov-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 6rpx;
+}
+
+.ov-line {
+  width: 1rpx;
+  height: 52rpx;
+  background: var(--line);
+}
+
+/* 搜索 */
+.search-bar {
+  padding: 0 24rpx 20rpx;
+  background: #fff;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  height: 76rpx;
+  background: var(--bg);
+  border-radius: 40rpx;
+  padding: 0 24rpx;
+}
+
+.search-icon {
+  font-size: 26rpx;
+  margin-right: 12rpx;
+  opacity: 0.5;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--text-1);
+  height: 76rpx;
+}
+
+.search-ph {
+  color: var(--text-4);
+  font-size: 26rpx;
+}
+
+.search-clear {
+  font-size: 24rpx;
+  color: var(--text-4);
+  padding: 0 8rpx;
+}
+
+.tabs-scroll {
+  background: #fff;
+  padding: 0 0 20rpx;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* 项目卡片 */
+.proj-card {
+  margin-bottom: 20rpx;
+}
+
+.proj-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--text-1);
+  max-width: 380rpx;
+}
+
+.proj-addr {
+  font-size: 22rpx;
+  color: var(--text-3);
+  margin-top: 8rpx;
+}
+
+.warn-badge {
+  font-size: 20rpx;
+  color: var(--danger);
+  background: var(--danger-light);
+  padding: 4rpx 14rpx;
+  border-radius: 8rpx;
+  flex-shrink: 0;
+}
+
+.proj-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 18rpx;
+  font-size: 24rpx;
+  color: var(--text-2);
+}
+
+.meta-dot {
+  margin: 0 10rpx;
+  color: var(--text-4);
+}
+
+.meta-item {
+  font-size: 24rpx;
+  color: var(--text-2);
+}
+
+.stage-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 22rpx;
+  margin-bottom: 14rpx;
+}
+
+.stage-left {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.stage-label {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.stage-name {
+  font-size: 26rpx;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.stage-count {
+  font-size: 22rpx;
+  color: var(--text-4);
+}
+
+.proj-foot {
+  display: flex;
+  margin-top: 22rpx;
+  padding-top: 20rpx;
+  border-top: 1rpx solid var(--line);
+}
+
+.foot-cell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+  min-width: 0;
+}
+
+.foot-k {
+  font-size: 22rpx;
+  color: var(--text-4);
+}
+
+.foot-v {
+  font-size: 24rpx;
+  color: var(--text-2);
+  font-weight: 500;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.bottom-space {
+  height: 30rpx;
+}

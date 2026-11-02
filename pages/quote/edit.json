@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "报价单编辑",
+  "usingComponents": {
+    "t-section": "/components/section-header/index",
+    "t-tag": "/components/tag/index"
+  }
+}

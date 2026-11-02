@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "报价单",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-empty": "/components/empty/index"
+  }
+}

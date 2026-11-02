@@ -1,0 +1,186 @@
+<view class="page" wx:if="{{contract}}">
+  <!-- 顶部合同卡 -->
+  <view class="head">
+    <view class="row-between">
+      <text class="head-no">{{contract.no}}</text>
+      <t-tag text="{{contract.status}}" type="{{contract.statusColor}}" size="default" />
+    </view>
+    <text class="head-title">{{contract.title}}</text>
+
+    <text class="head-amount-label">合同金额</text>
+    <view class="head-amount row">
+      <text class="ha-yen">¥</text>
+      <text class="ha-num bold-num">{{contract.amountText}}</text>
+    </view>
+    <text class="ha-wan">{{contract.amountWan}}</text>
+
+    <view class="head-grid">
+      <view class="hg-item">
+        <text class="hg-label">签约日期</text>
+        <text class="hg-value">{{contract.signDateText}}</text>
+      </view>
+      <view class="hg-item">
+        <text class="hg-label">计划完工</text>
+        <text class="hg-value">{{contract.planEndText}}</text>
+      </view>
+      <view class="hg-item">
+        <text class="hg-label">付款期数</text>
+        <text class="hg-value">{{contract.payCount}} 期</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="container">
+    <!-- 收款进度 -->
+    <view class="card progress-card">
+      <view class="row-between mb-16">
+        <text class="pc-title">收款进度</text>
+        <text class="pc-rate bold-num">{{progress.rate}}%</text>
+      </view>
+      <t-progress percent="{{progress.rate}}" height="{{16}}" type="{{progress.barType}}" />
+      <view class="pc-numbers">
+        <view class="pc-num-item">
+          <text class="pn-label">已收</text>
+          <text class="pn-value t-success bold-num">¥ {{progress.paidText}}</text>
+        </view>
+        <view class="pc-num-item">
+          <text class="pn-label">待收</text>
+          <text class="pn-value t-warning bold-num">¥ {{progress.unpaidText}}</text>
+        </view>
+        <view class="pc-num-item">
+          <text class="pn-label">合同额</text>
+          <text class="pn-value bold-num">¥ {{contract.amountText}}</text>
+        </view>
+      </view>
+      <view wx:if="{{overdueCount > 0}}" class="overdue-banner">
+        ⚠️ 有 {{overdueCount}} 期收款已逾期，请及时催收
+      </view>
+    </view>
+
+    <!-- 合同信息 -->
+    <t-section title="合同信息" />
+    <view class="card">
+      <view class="kv">
+        <text class="kv-k">合同编号</text>
+        <text class="kv-v">{{contract.no}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">签约日期</text>
+        <text class="kv-v">{{contract.signDateText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">开工日期</text>
+        <text class="kv-v">{{contract.startDateText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">计划完工</text>
+        <text class="kv-v">{{contract.planEndText}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">签约人</text>
+        <text class="kv-v">{{contract.creator}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">付款方式</text>
+        <text class="kv-v">{{contract.payMode}}</text>
+      </view>
+      <view class="kv">
+        <text class="kv-k">合同金额</text>
+        <text class="kv-v t-primary bold-num">¥ {{contract.amountText}}</text>
+      </view>
+      <view wx:if="{{contract.remark}}" class="kv kv-block">
+        <text class="kv-k">备注</text>
+        <text class="kv-v kv-multi">{{contract.remark}}</text>
+      </view>
+    </view>
+
+    <!-- 收款计划 -->
+    <t-section title="收款计划" sub="点击某期可直接登记收款" />
+    <view wx:if="{{plans.length > 0}}">
+      <view
+        wx:for="{{plans}}"
+        wx:key="id"
+        class="card card-hover plan {{item.isOverdue ? 'plan-overdue' : ''}}"
+        data-index="{{index}}"
+        bindtap="goPlanReceipt"
+      >
+        <view class="row-between">
+          <view class="row">
+            <text class="plan-seq">{{item.seq}}</text>
+            <text class="plan-name">{{item.name}}</text>
+          </view>
+          <t-tag text="{{item.statusText}}" type="{{item.statusColor}}" size="small" />
+        </view>
+
+        <view class="plan-main row-between">
+          <view class="col">
+            <text class="plan-amount-label">应收金额（{{item.ratioText}}）</text>
+            <text class="plan-amount bold-num">¥ {{item.amountText}}</text>
+          </view>
+          <view class="plan-due col">
+            <text class="plan-due-label">应收日期</text>
+            <text class="plan-due-value {{item.isOverdue ? 't-danger' : ''}}">{{item.dueDateText}}</text>
+          </view>
+        </view>
+
+        <view class="plan-foot row-between">
+          <view class="row">
+            <text class="pf-label">已收</text>
+            <text class="pf-paid bold-num">¥ {{item.paidAmountText}}</text>
+            <text wx:if="{{item.paidDateText !== '—'}}" class="pf-date">· {{item.paidDateText}}</text>
+          </view>
+          <text wx:if="{{item.isOverdue}}" class="overdue-tip">{{item.overdueTip}}</text>
+          <text wx:elif="{{item.isSettled}}" class="settled-tip">✓ 已结清</text>
+          <text wx:else class="pf-remain">待收 ¥ {{item.remainText}}</text>
+        </view>
+      </view>
+    </view>
+    <view wx:else class="card">
+      <t-empty icon="💰" text="暂无收款计划" />
+    </view>
+
+    <!-- 关联信息 -->
+    <t-section title="关联信息" />
+    <view class="card">
+      <view class="cell-row" bindtap="goCustomer" hover-class="cell-row-hover">
+        <view class="cell-ico blue">👤</view>
+        <view class="flex-1">
+          <text class="cell-t">客户 · {{contract.customerName}}</text>
+          <text class="cell-s">{{contract.customerHouse}}</text>
+        </view>
+        <text class="cell-phone" catchtap="onCall">{{contract.customerPhone}}</text>
+        <view class="arrow-right"></view>
+      </view>
+
+      <view class="cell-row" bindtap="goProject" hover-class="cell-row-hover">
+        <view class="cell-ico orange">🏗</view>
+        <view class="flex-1">
+          <text class="cell-t">项目 · {{contract.projectName || '暂未关联'}}</text>
+          <text class="cell-s">{{contract.projectStatus || '合同签约后自动关联项目'}}</text>
+        </view>
+        <view class="arrow-right"></view>
+      </view>
+
+      <view wx:if="{{hasQuote}}" class="cell-row" bindtap="goQuote" hover-class="cell-row-hover">
+        <view class="cell-ico violet">🧾</view>
+        <view class="flex-1">
+          <text class="cell-t">关联报价单 · {{contract.quoteNo}}</text>
+          <text class="cell-s">报价合计 ¥ {{contract.quoteTotal}}</text>
+        </view>
+        <view class="arrow-right"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="bottom-placeholder"></view>
+
+  <!-- 底部操作 -->
+  <view class="bottom-bar">
+    <view class="btn btn-plain" bindtap="onMore">更多</view>
+    <view wx:if="{{hasQuote}}" class="btn btn-ghost flex-1" bindtap="goQuote">查看报价</view>
+    <view wx:if="{{contract.status === '待签约'}}" class="btn btn-ghost flex-1" bindtap="onSign">确认签约</view>
+    <view wx:if="{{contract.status !== '待签约' && contract.status !== '已作废'}}" class="btn btn-primary flex-1" bindtap="goReceipt">登记收款</view>
+  </view>
+</view>
+
+<view wx:else class="loading">加载中…</view>

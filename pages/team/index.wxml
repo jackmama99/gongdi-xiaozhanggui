@@ -1,0 +1,118 @@
+<view class="page">
+  <view class="container">
+    <block wx:if="{{hasTeam}}">
+      <!-- 团队概要 -->
+      <view class="team-hero">
+        <view class="team-avatar">{{team.name[0]}}</view>
+        <view class="team-main">
+          <view class="team-name">{{team.name}}</view>
+          <view class="team-sub">{{team.industry}} · {{team.city}}</view>
+        </view>
+        <view wx:if="{{isOwner}}" class="team-edit" bindtap="openRename">改名</view>
+      </view>
+
+      <!-- 数据概览 -->
+      <view class="stat-row">
+        <view class="stat-cell">
+          <view class="stat-num">{{stats.members}}</view>
+          <view class="stat-label">团队成员</view>
+        </view>
+        <view class="stat-cell">
+          <view class="stat-num">{{stats.customers}}</view>
+          <view class="stat-label">共享客户</view>
+        </view>
+        <view class="stat-cell">
+          <view class="stat-num">{{stats.projects}}</view>
+          <view class="stat-label">在建项目</view>
+        </view>
+      </view>
+
+      <!-- 邀请码 -->
+      <view class="card invite-card">
+        <view class="group-title">团队邀请码</view>
+        <view class="invite-code">{{team.inviteCode}}</view>
+        <view class="invite-hint">把这个码发给同事，他们登录后输入即可加入团队，看到同一批客户和工地</view>
+        <view class="invite-actions">
+          <view class="btn btn-primary invite-btn" bindtap="copyInviteText">复制邀请文案</view>
+          <view class="btn invite-btn invite-ghost" bindtap="copyCode">仅复制邀请码</view>
+        </view>
+        <view wx:if="{{isOwner}}" class="invite-reset" bindtap="regenCode">重置邀请码</view>
+      </view>
+
+      <!-- 成员列表 -->
+      <view class="card">
+        <view class="group-title">团队成员（{{members.length}}）</view>
+        <view
+          wx:for="{{members}}"
+          wx:key="id"
+          class="member-item"
+        >
+          <view class="member-avatar">{{item.initial}}</view>
+          <view class="member-info">
+            <view class="member-name">
+              {{item.name}}
+              <text wx:if="{{item.isMe}}" class="member-me">我</text>
+            </view>
+            <view class="member-phone">{{item.phone || '未填手机号'}}</view>
+          </view>
+
+          <!-- 老板可改角色；老板本人不可改 -->
+          <view wx:if="{{isOwner && !item.isOwner}}" class="member-role">
+            <picker
+              mode="selector"
+              range="{{roleList}}"
+              value="{{item.roleIndex}}"
+              data-id="{{item.id}}"
+              bindchange="onRoleChange"
+            >
+              <view class="role-pill">{{item.roleText}} ▾</view>
+            </picker>
+          </view>
+          <view wx:else class="role-pill role-pill-static {{item.isOwner ? 'role-owner' : ''}}">
+            {{item.roleText}}
+          </view>
+
+          <view
+            wx:if="{{isOwner && !item.isOwner}}"
+            class="member-del"
+            data-id="{{item.id}}"
+            data-name="{{item.name}}"
+            bindtap="removeMember"
+          >
+            移除
+          </view>
+        </view>
+      </view>
+
+      <view class="tip-bar">团队内所有成员共享客户、跟进记录和项目数据；角色决定能进入哪些模块。</view>
+    </block>
+
+    <block wx:else>
+      <t-empty
+        icon="🏢"
+        text="你还没有加入任何团队"
+        action-text="创建团队"
+        bind:action="goSetup"
+      />
+    </block>
+  </view>
+
+  <!-- 改名弹窗 -->
+  <t-popup
+    visible="{{showRename}}"
+    title="修改团队名称"
+    confirm-text="保存"
+    bind:cancel="closeRename"
+    bind:confirm="submitRename"
+  >
+    <view class="rename-box">
+      <input
+        class="rename-input"
+        value="{{renameValue}}"
+        placeholder="团队 / 公司名称"
+        placeholder-class="form-ph"
+        bindinput="onRenameInput"
+      />
+    </view>
+  </t-popup>
+</view>

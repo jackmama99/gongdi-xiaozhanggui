@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "经营报表",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-empty": "/components/empty/index"
+  }
+}

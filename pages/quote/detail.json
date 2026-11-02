@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "报价详情",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-empty": "/components/empty/index"
+  }
+}

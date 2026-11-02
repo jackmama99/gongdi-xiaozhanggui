@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "收款登记",
+  "usingComponents": {
+    "t-tag": "/components/tag/index",
+    "t-section": "/components/section-header/index",
+    "t-progress": "/components/progress-bar/index",
+    "t-empty": "/components/empty/index"
+  }
+}

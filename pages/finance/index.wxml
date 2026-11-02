@@ -1,0 +1,188 @@
+<view class="page">
+
+  <!-- 深色渐变资金卡片 -->
+  <view class="hero-wrap">
+    <view class="hero">
+      <view class="hero-head row-between">
+        <view class="row">
+          <text class="hero-emoji">💎</text>
+          <text class="hero-title">资金概览</text>
+        </view>
+        <text class="hero-month">{{monthText}}</text>
+      </view>
+
+      <view class="hero-main">
+        <view class="hero-main-label">本月净现金流</view>
+        <view class="hero-main-value">
+          <text class="hero-sign">{{hero.netType === 'danger' ? '-' : '+'}}</text>
+          <text class="hero-num bold-num">{{hero.net}}</text>
+          <text class="hero-unit">元</text>
+        </view>
+      </view>
+
+      <view class="hero-row">
+        <view class="hero-item">
+          <view class="hero-item-dot dot-primary"></view>
+          <text class="hero-item-label">本月收款</text>
+          <text class="hero-item-value bold-num">¥{{hero.receipt}}</text>
+        </view>
+        <view class="hero-split"></view>
+        <view class="hero-item">
+          <view class="hero-item-dot hero-item-dot-warn"></view>
+          <text class="hero-item-label">本月支出</text>
+          <text class="hero-item-value bold-num">¥{{hero.expense}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 核心指标四宫格 -->
+  <view class="container">
+    <view class="metric-grid">
+      <view wx:for="{{metrics}}" wx:key="label" class="metric-item">
+        <view class="row gap-8">
+          <text class="metric-emoji">{{item.emoji}}</text>
+          <text class="metric-label">{{item.label}}</text>
+        </view>
+        <view class="metric-value bold-num">{{item.value}}</view>
+        <view class="metric-sub {{item.subClass}}">{{item.sub}}</view>
+      </view>
+    </view>
+
+    <!-- 资金台账入口 -->
+    <view class="entry-grid mt-20">
+      <view
+        wx:for="{{entries}}"
+        wx:key="title"
+        class="entry card-hover"
+        hover-class="card-hover"
+        data-url="{{item.url}}"
+        bindtap="goEntry"
+      >
+        <view class="entry-icon entry-icon-{{item.tone}}">{{item.emoji}}</view>
+        <view class="flex-1">
+          <view class="entry-title">{{item.title}}</view>
+          <view class="entry-sub">{{item.sub}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 待收款提醒 -->
+    <view class="mt-8">
+      <t-section title="待收款提醒" sub="{{receivableHint}}" />
+    </view>
+
+    <view wx:if="{{receivables.length === 0}}" class="card">
+      <t-empty icon="🎉" text="暂无到期或临近的待收款" />
+    </view>
+    <view wx:else class="card list-card">
+      <view
+        wx:for="{{receivables}}"
+        wx:key="key"
+        class="recv-item {{index === receivables.length - 1 ? 'last' : ''}}"
+        hover-class="row-hover"
+        data-id="{{item.contractId}}"
+        bindtap="goContract"
+      >
+        <view class="recv-left">
+          <view class="row gap-8">
+            <text class="recv-name">{{item.customerName}}</text>
+            <t-tag
+              text="{{item.isOverdue ? '逾期' : '临近到期'}}"
+              type="{{item.isOverdue ? 'red' : 'orange'}}"
+              size="small"
+            />
+          </view>
+          <view class="recv-sub ellipsis">{{item.planName}} · {{item.contractNo}}</view>
+        </view>
+        <view class="recv-right">
+          <view class="recv-amount bold-num">¥{{item.amountText}}</view>
+          <view class="recv-due {{item.isOverdue ? 't-danger' : 't-3'}}">{{item.dueText}}</view>
+          <view class="recv-tip {{item.isOverdue ? 't-danger' : 't-warning'}}">{{item.tip}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 待审批支出 -->
+    <view class="mt-8">
+      <t-section title="待审批支出" sub="{{expenseHint}}" />
+    </view>
+
+    <view wx:if="{{expenses.length === 0}}" class="card">
+      <t-empty icon="✅" text="暂无待审批的支出申请" />
+    </view>
+    <view wx:else class="card list-card">
+      <view
+        wx:for="{{expenses}}"
+        wx:key="id"
+        class="exp-wrap {{index === expenses.length - 1 ? 'last' : ''}}"
+      >
+        <view class="exp-item" hover-class="row-hover" data-id="{{item.id}}" bindtap="toggleExpense">
+          <view class="exp-icon">🧾</view>
+          <view class="flex-1">
+            <view class="row gap-8">
+              <text class="recv-name">{{item.category}}</text>
+              <t-tag text="待审批" type="orange" size="small" />
+            </view>
+            <view class="recv-sub ellipsis">{{item.projectName}} · {{item.applicant}} 提交</view>
+          </view>
+          <view class="exp-right">
+            <view class="recv-amount bold-num">¥{{item.amountText}}</view>
+            <view class="recv-due t-3">{{item.dateText}}</view>
+          </view>
+        </view>
+        <view wx:if="{{item.expanded}}" class="exp-actions">
+          <view class="exp-hint">审批后「通过」将自动计入项目成本</view>
+          <view class="row gap-16 mt-12">
+            <view
+              class="btn btn-sm btn-plain flex-1"
+              data-id="{{item.id}}"
+              data-act="reject"
+              bindtap="onApprove"
+            >驳回</view>
+            <view
+              class="btn btn-sm btn-primary flex-1"
+              data-id="{{item.id}}"
+              data-act="pass"
+              bindtap="onApprove"
+            >通过</view>
+            <view
+              wx:if="{{canDeleteExpense}}"
+              class="btn btn-sm btn-plain btn-danger-plain"
+              data-id="{{item.id}}"
+              bindtap="onDeleteExpense"
+            >删除</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 最近收款记录 -->
+    <view class="mt-8">
+      <t-section title="最近收款" extra="登记收款" bind:extra="goReceipt" />
+    </view>
+
+    <view wx:if="{{recentReceipts.length === 0}}" class="card">
+      <t-empty icon="💰" text="暂无收款记录" action="去登记" bind:action="goReceipt" />
+    </view>
+    <view wx:else class="card list-card">
+      <view
+        wx:for="{{recentReceipts}}"
+        wx:key="id"
+        class="recent-item {{index === recentReceipts.length - 1 ? 'last' : ''}}"
+      >
+        <view class="recent-avatar">{{item.initial}}</view>
+        <view class="flex-1">
+          <view class="recent-name ellipsis">{{item.customerName}}</view>
+          <view class="recv-sub ellipsis">{{item.contractNo}} · {{item.method}}</view>
+        </view>
+        <view class="recent-right">
+          <view class="recv-amount t-success bold-num">+{{item.amountText}}</view>
+          <view class="recv-due t-3">{{item.dateText}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="foot-hint">数据由云端实时汇总 · 下拉可刷新</view>
+  </view>
+</view>

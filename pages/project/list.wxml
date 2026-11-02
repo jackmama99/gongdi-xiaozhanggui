@@ -1,0 +1,116 @@
+<view class="page">
+  <!-- 概览 -->
+  <view class="overview">
+    <view class="ov-item">
+      <view class="ov-num bold-num">{{summary.running}}</view>
+      <view class="ov-label">在建</view>
+    </view>
+    <view class="ov-line"></view>
+    <view class="ov-item">
+      <view class="ov-num bold-num">{{summary.avgProgress}}<text class="ov-unit">%</text></view>
+      <view class="ov-label">平均进度</view>
+    </view>
+    <view class="ov-line"></view>
+    <view class="ov-item">
+      <view class="ov-num bold-num {{summary.overdueNodes > 0 ? 't-danger' : ''}}">{{summary.overdueNodes}}</view>
+      <view class="ov-label">逾期节点</view>
+    </view>
+  </view>
+
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索项目 / 客户 / 地址"
+        placeholder-class="search-ph"
+        value="{{keyword}}"
+        bindinput="onSearchInput"
+      />
+      <view wx:if="{{keyword}}" class="search-clear" bindtap="clearSearch">✕</view>
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="tabs-scroll">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab-chip {{activeTab === item.key ? 'active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchTab"
+    >{{item.name}}</view>
+  </view>
+
+  <!-- 列表 -->
+  <view class="container mt-16">
+    <block wx:if="{{list.length > 0}}">
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="card proj-card card-hover"
+        data-id="{{item.id}}"
+        bindtap="goDetail"
+      >
+        <!-- 标题行 -->
+        <view class="row-between">
+          <view class="flex-1">
+            <view class="row gap-12">
+              <text class="proj-name ellipsis">{{item.name}}</text>
+              <t-tag text="{{item.status}}" type="{{item.statusColor}}" size="small"></t-tag>
+            </view>
+            <view class="proj-addr ellipsis">{{item.address}}</view>
+          </view>
+          <view wx:if="{{item.hasOverdueNode}}" class="warn-badge">逾期</view>
+        </view>
+
+        <!-- 客户与参数 -->
+        <view class="proj-meta">
+          <text class="meta-item">👤 {{item.customerName}}</text>
+          <text class="meta-dot">·</text>
+          <text class="meta-item">{{item.area}}㎡ {{item.houseType}}</text>
+          <text class="meta-dot">·</text>
+          <text class="meta-item">{{item.projectType}}</text>
+        </view>
+
+        <!-- 进度 -->
+        <view class="stage-row">
+          <view class="stage-left">
+            <text class="stage-label">当前阶段</text>
+            <text class="stage-name">{{item.currentStage}}</text>
+          </view>
+          <text class="stage-count">{{item.doneNodes}}/{{item.totalNodes}}</text>
+        </view>
+        <t-progress percent="{{item.progress}}" height="{{12}}" showText="{{true}}" label="{{item.progress}}%"></t-progress>
+
+        <!-- 底部 -->
+        <view class="proj-foot">
+          <view class="foot-cell">
+            <text class="foot-k">合同额</text>
+            <text class="foot-v bold-num">{{item.contractWan}}</text>
+          </view>
+          <view class="foot-cell">
+            <text class="foot-k">项目经理</text>
+            <text class="foot-v" data-name="{{item.managerName}}" catchtap="callManager">📞 {{item.managerName}}</text>
+          </view>
+          <view class="foot-cell">
+            <text class="foot-k">工期</text>
+            <text class="foot-v {{item.isOverdue ? 't-danger' : ''}}">{{item.daysLeftText}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+
+    <view wx:else class="card">
+      <t-empty
+        icon="🏗"
+        text="{{keyword ? '没有匹配的项目' : (activeStatus !== '全部' ? '该状态下暂无项目' : '还没有项目：客户签约后会自动生成')}}"
+        action="{{keyword ? '清除搜索' : (activeStatus !== '全部' ? '' : '去客户列表')}}"
+        bind:action="onEmptyAction"
+      ></t-empty>
+    </view>
+
+    <view class="bottom-space"></view>
+  </view>
+</view>

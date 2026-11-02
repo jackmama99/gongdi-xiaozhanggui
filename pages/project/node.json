@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "施工节点",
+  "enablePullDownRefresh": true,
+  "usingComponents": {
+    "t-tag": "/components/tag/index"
+  }
+}

@@ -1,0 +1,79 @@
+<view class="page">
+  <!-- 用户头部 -->
+  <view class="user-header">
+    <view class="user-bg"></view>
+    <view class="user-main">
+      <view class="avatar">{{initial}}</view>
+      <view class="user-info">
+        <view class="user-name">{{user.name}}</view>
+        <view class="user-role">
+          <text class="role-badge">{{user.role}}</text>
+          <text class="dept">{{user.dept}}</text>
+        </view>
+        <view class="user-phone">📱 {{user.phone}}</view>
+      </view>
+      <view class="setting-btn" bindtap="goSetting">⚙️</view>
+    </view>
+  </view>
+
+  <!-- 数据统计 -->
+  <view class="container">
+    <view class="stat-row">
+      <view wx:for="{{stats}}" wx:key="label" class="stat-item">
+        <view class="stat-num bold-num">{{item.value}}</view>
+        <view class="stat-label">{{item.label}}</view>
+      </view>
+    </view>
+
+    <!-- 公司信息 -->
+    <view class="company-card" bindtap="goSetting">
+      <view class="company-logo">🏢</view>
+      <view class="flex-1">
+        <view class="company-name">{{company.name}}</view>
+        <view class="company-addr ellipsis">{{company.address}}</view>
+      </view>
+      <view class="arrow-right"></view>
+    </view>
+
+    <!-- 菜单组 -->
+    <view wx:for="{{menus}}" wx:key="group" wx:for-item="group" class="menu-group">
+      <view class="menu-group-title">{{group.group}}</view>
+      <view class="menu-card">
+        <view
+          wx:for="{{group.items}}"
+          wx:key="name"
+          class="menu-item"
+          data-item="{{item}}"
+          bindtap="goMenu"
+          hover-class="menu-item-hover"
+        >
+          <view class="menu-icon" style="background:{{item.color}}">{{item.icon}}</view>
+          <text class="menu-name">{{item.name}}</text>
+          <view wx:if="{{item.badge > 0}}" class="menu-badge">{{item.badge}}</view>
+          <view class="arrow-right"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 其他 -->
+    <view class="menu-group">
+      <view class="menu-group-title">其他</view>
+      <view class="menu-card">
+        <view class="menu-item" bindtap="goSetting" hover-class="menu-item-hover">
+          <view class="menu-icon bg-primary-light">⚙️</view>
+          <text class="menu-name">系统设置</text>
+          <view class="arrow-right"></view>
+        </view>
+        <view wx:if="{{isDemo}}" class="menu-item" bindtap="doReset" hover-class="menu-item-hover">
+          <view class="menu-icon bg-warning-light">🔄</view>
+          <text class="menu-name">重置演示数据</text>
+          <view class="arrow-right"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="logout-btn" bindtap="doLogout">退出登录</view>
+    <view class="version">工地小掌柜 v{{version}}</view>
+    <view class="bottom-space"></view>
+  </view>
+</view>

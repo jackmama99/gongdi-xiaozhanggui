@@ -1,0 +1,11 @@
+<view class="stat">
+  <view class="stat-label">
+    <text>{{label}}</text>
+    <text wx:if="{{unit}}" class="stat-unit">{{unit}}</text>
+  </view>
+  <view class="stat-value">
+    <text class="stat-num">{{value}}</text>
+    <text wx:if="{{suffix}}" class="stat-suffix">{{suffix}}</text>
+  </view>
+  <view wx:if="{{sub}}" class="stat-sub {{subType}}">{{sub}}</view>
+</view>

@@ -1,0 +1,219 @@
+<view class="page">
+
+  <!-- 顶部统计 -->
+  <view class="container mt-24">
+    <view wx:if="{{projectName}}" class="scope-bar">
+      <text class="scope-emoji">🏗</text>
+      <text class="scope-label">当前项目</text>
+      <text class="scope-name ellipsis">{{projectName}}</text>
+    </view>
+
+    <view class="stat-grid">
+      <view class="stat-box">
+        <view class="stat-box-label">材料总项数</view>
+        <view class="stat-box-value bold-num">{{stats.total}}<text class="stat-box-unit">项</text></view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-box-label">采购总额</view>
+        <view class="stat-box-value stat-box-value-main bold-num">{{stats.totalAmount}}</view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-box-label">待采购</view>
+        <view class="stat-box-value t-warning bold-num">{{stats.pending}}<text class="stat-box-unit">项</text></view>
+      </view>
+      <view class="stat-box">
+        <view class="stat-box-label">已下单 / 在途</view>
+        <view class="stat-box-value t-primary bold-num">{{stats.shipping}}<text class="stat-box-unit">项</text></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 状态筛选 -->
+  <view class="tabs-scroll mt-20">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="*this"
+      class="tab-chip {{activeTab === item ? 'active' : ''}}"
+      data-tab="{{item}}"
+      bindtap="onTabTap"
+    >{{item}}</view>
+  </view>
+
+  <!-- 材料列表 -->
+  <view class="container mt-20">
+    <view wx:if="{{list.length === 0}}" class="card">
+      <t-empty
+        icon="🚚"
+        text="{{activeTab === '全部' ? '暂无材料记录，点击右下角新增' : '该状态下暂无材料'}}"
+        action="{{activeTab === '全部' ? '新建材料' : ''}}"
+        bind:action="openForm"
+      />
+    </view>
+
+    <view wx:else>
+      <view
+        wx:for="{{list}}"
+        wx:key="id"
+        class="mat-card card-hover"
+        hover-class="card-hover"
+        data-id="{{item.id}}"
+        bindtap="goDetail"
+      >
+        <view class="row-between">
+          <view class="row gap-8 flex-1">
+            <text class="mat-name ellipsis">{{item.name}}</text>
+            <t-tag text="{{item.category}}" type="violet" size="small" />
+          </view>
+          <t-tag text="{{item.status}}" type="{{item.statusType}}" size="small" />
+        </view>
+
+        <view class="mat-spec ellipsis">{{item.spec}}</view>
+
+        <view class="mat-meta">
+          <text class="mat-project ellipsis">🏗 {{item.projectName}}</text>
+          <text class="mat-no">{{item.no}}</text>
+        </view>
+
+        <view class="mat-bottom">
+          <view class="mat-qty">
+            <text class="mat-qty-num bold-num">{{item.qty}}</text>
+            <text class="mat-qty-unit">{{item.unit}}</text>
+            <text class="mat-price">× ¥{{item.priceText}}</text>
+          </view>
+          <text class="mat-amount bold-num">{{item.amountText}}</text>
+        </view>
+
+        <view class="mat-supplier ellipsis">供应商：{{item.supplier}}</view>
+      </view>
+    </view>
+
+    <view class="bottom-placeholder"></view>
+  </view>
+
+  <!-- 悬浮新建按钮 -->
+  <view class="fab" bindtap="openForm">+</view>
+
+  <!-- 新建材料弹窗 -->
+  <t-popup
+    visible="{{showForm}}"
+    title="新建材料"
+    confirmText="保存"
+    cancelText="取消"
+    maxHeight="82vh"
+    bind:cancel="closeForm"
+    bind:confirm="submitForm"
+  >
+    <view class="popup-form">
+      <picker
+        mode="selector"
+        range="{{projectLabels}}"
+        value="{{form.projectIndex}}"
+        bindchange="onFormProject"
+      >
+        <view class="form-item">
+          <text class="form-label form-label-req">所属项目</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text class="ellipsis">{{projectLabels[form.projectIndex]}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">材料名称</text>
+        <input
+          class="form-input"
+          value="{{form.name}}"
+          placeholder="如：马可波罗瓷砖"
+          placeholder-class="form-placeholder"
+          maxlength="30"
+          bindinput="onFormName"
+        />
+      </view>
+
+      <picker
+        mode="selector"
+        range="{{categoryList}}"
+        value="{{form.categoryIndex}}"
+        bindchange="onFormCategory"
+      >
+        <view class="form-item">
+          <text class="form-label form-label-req">材料类别</text>
+          <view class="form-value row" style="justify-content:flex-end">
+            <text>{{categoryList[form.categoryIndex]}}</text>
+            <view class="form-arrow"></view>
+          </view>
+        </view>
+      </picker>
+
+      <view class="form-item">
+        <text class="form-label">规格型号</text>
+        <input
+          class="form-input"
+          value="{{form.spec}}"
+          placeholder="选填，如 750×1500 星灰"
+          placeholder-class="form-placeholder"
+          maxlength="30"
+          bindinput="onFormSpec"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">单位</text>
+        <input
+          class="form-input"
+          value="{{form.unit}}"
+          placeholder="如 ㎡ / 桶 / 套"
+          placeholder-class="form-placeholder"
+          maxlength="8"
+          bindinput="onFormUnit"
+        />
+      </view>
+      <view class="unit-suggest">
+        <view
+          wx:for="{{unitSuggest}}"
+          wx:key="*this"
+          class="unit-chip {{form.unit === item ? 'unit-chip-active' : ''}}"
+          data-unit="{{item}}"
+          bindtap="onFormUnitPick"
+        >{{item}}</view>
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">数量</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.qty}}"
+          placeholder="0"
+          placeholder-class="form-placeholder"
+          bindinput="onFormQty"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label form-label-req">单价（元）</text>
+        <input
+          class="form-input"
+          type="digit"
+          value="{{form.price}}"
+          placeholder="0.00"
+          placeholder-class="form-placeholder"
+          bindinput="onFormPrice"
+        />
+      </view>
+
+      <view class="form-item">
+        <text class="form-label">供应商</text>
+        <input
+          class="form-input"
+          value="{{form.supplier}}"
+          placeholder="选填"
+          placeholder-class="form-placeholder"
+          maxlength="30"
+          bindinput="onFormSupplier"
+        />
+      </view>
+    </view>
+  </t-popup>
+</view>

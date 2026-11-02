@@ -1,0 +1,23 @@
+<view class="doc-page">
+  <view class="doc-head">
+    <view class="doc-title">用户服务协议</view>
+    <view class="doc-meta">更新日期：{{updatedAt}}　生效日期：{{updatedAt}}</view>
+  </view>
+
+  <view class="doc-lead">
+    欢迎使用「工地小掌柜」。在使用前，请你仔细阅读并充分理解本协议全部内容，特别是免除或限制责任的条款。你点击勾选并登录，即表示你已阅读并同意本协议。
+  </view>
+
+  <view wx:for="{{sections}}" wx:key="title" class="doc-section">
+    <view class="doc-h">{{item.title}}</view>
+    <view wx:for="{{item.paragraphs}}" wx:for-item="p" wx:key="*this" class="doc-p">{{p}}</view>
+  </view>
+
+  <view class="doc-section">
+    <view class="doc-h">联系方式</view>
+    <view class="doc-p">运营者：{{operator}}</view>
+    <view class="doc-p contact" bindtap="copyContact">联系电话：{{contact}}（点击复制）</view>
+  </view>
+
+  <view class="doc-foot">本协议自 {{updatedAt}} 起生效</view>
+</view>

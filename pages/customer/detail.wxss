@@ -1,0 +1,360 @@
+/* ---------------- 头部客户卡 ---------------- */
+.head {
+  background: var(--primary);
+  padding: 32rpx 28rpx 28rpx;
+  border-radius: 0 0 32rpx 32rpx;
+}
+
+.avatar {
+  width: 104rpx;
+  height: 104rpx;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.24);
+  color: #fff;
+  font-size: 36rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.head-name {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: #fff;
+}
+
+.head-desc {
+  display: block;
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.75);
+  margin-top: 8rpx;
+}
+
+.head-chip {
+  font-size: 22rpx;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 24rpx;
+  padding: 6rpx 18rpx;
+  margin-right: 12rpx;
+}
+
+.head-grid {
+  display: flex;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 16rpx;
+  margin-top: 26rpx;
+  padding: 20rpx 0;
+}
+
+.head-grid-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-right: 1rpx solid rgba(255, 255, 255, 0.18);
+}
+
+.head-grid-item:last-child {
+  border-right: none;
+}
+
+.hg-label {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.hg-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #fff;
+  margin-top: 6rpx;
+}
+
+.hg-value.danger {
+  color: var(--danger-light);
+}
+
+.hg-value.warning {
+  color: var(--warning-light);
+}
+
+/* ---------------- 信息键值 ---------------- */
+.kv {
+  display: flex;
+  align-items: flex-start;
+  padding: 18rpx 0;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.kv:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.kv:first-child {
+  padding-top: 0;
+}
+
+.kv-k {
+  width: 170rpx;
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: var(--text-3);
+}
+
+.kv-v {
+  flex: 1;
+  font-size: 26rpx;
+  color: var(--text-1);
+  text-align: right;
+  word-break: break-all;
+}
+
+.kv-block {
+  flex-direction: column;
+}
+
+.kv-block .kv-k {
+  width: auto;
+}
+
+.kv-multi {
+  text-align: left;
+  margin-top: 10rpx;
+  color: var(--text-2);
+  line-height: 1.65;
+  background: var(--fill);
+  border-radius: 12rpx;
+  padding: 16rpx 20rpx;
+}
+
+.kv-v.danger {
+  color: var(--danger);
+  font-weight: 500;
+}
+
+.kv-v.warning {
+  color: var(--warning);
+  font-weight: 500;
+}
+
+.tip-inline {
+  font-size: 22rpx;
+  color: var(--text-3);
+}
+
+.tags .t-tag {
+  margin-bottom: 12rpx;
+}
+
+/* ---------------- Tab ---------------- */
+.tabbar {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 8rpx;
+  margin: 24rpx 0 20rpx;
+  box-shadow: var(--shadow);
+}
+
+.tabbar-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 72rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: var(--text-2);
+}
+
+.tabbar-item.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.tabbar-count {
+  font-size: 20rpx;
+  margin-left: 8rpx;
+  opacity: 0.7;
+}
+
+/* ---------------- 时间轴 ---------------- */
+.tl-item {
+  display: flex;
+  position: relative;
+}
+
+.tl-axis {
+  width: 40rpx;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 8rpx;
+}
+
+.tl-dot {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.tl-dot.first {
+  background: var(--primary);
+  box-shadow: 0 0 0 6rpx var(--primary-light);
+}
+
+.tl-line {
+  flex: 1;
+  width: 2rpx;
+  background: var(--line);
+  margin: 8rpx 0;
+  min-height: 40rpx;
+}
+
+.tl-body {
+  flex: 1;
+  min-width: 0;
+  padding: 0 0 32rpx 16rpx;
+}
+
+.tl-item:last-child .tl-body {
+  padding-bottom: 0;
+}
+
+.tl-result {
+  font-size: 20rpx;
+  color: var(--success);
+  background: var(--success-light);
+  border-radius: 8rpx;
+  padding: 2rpx 10rpx;
+  margin-left: 10rpx;
+}
+
+.tl-time {
+  font-size: 22rpx;
+  color: var(--text-4);
+  flex-shrink: 0;
+}
+
+.tl-content {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-1);
+  line-height: 1.6;
+  margin-top: 10rpx;
+}
+
+.tl-owner {
+  display: block;
+  font-size: 22rpx;
+  color: var(--text-4);
+  margin-top: 8rpx;
+}
+
+/* ---------------- 底部栏 ---------------- */
+.more-btn {
+  width: 88rpx;
+  height: 88rpx;
+  border-radius: 40rpx;
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 36rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ---------------- 弹窗表单 ---------------- */
+.popup-form {
+  padding: 8rpx 32rpx 20rpx;
+}
+
+.pf-block {
+  margin-bottom: 30rpx;
+}
+
+.pf-block:last-child {
+  margin-bottom: 0;
+}
+
+.pf-label {
+  display: block;
+  font-size: 26rpx;
+  color: var(--text-2);
+  margin-bottom: 16rpx;
+}
+
+.pf-textarea {
+  width: 100%;
+  min-height: 140rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+  box-sizing: border-box;
+}
+
+.pf-ph {
+  color: var(--text-4);
+  font-size: 28rpx;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.chip {
+  padding: 12rpx 26rpx;
+  border-radius: 28rpx;
+  background: var(--bg);
+  color: var(--text-2);
+  font-size: 26rpx;
+}
+
+.chip.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* 下次跟进日期选择 */
+.pf-date {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 80rpx;
+  padding: 0 20rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+}
+
+.pf-date-empty {
+  color: var(--text-4);
+}
+
+.pf-date-arrow {
+  color: var(--text-4);
+  font-size: 30rpx;
+}
+
+
+.pf-date-clear {
+  margin-left: 16rpx;
+  font-size: 24rpx;
+  color: var(--text-3);
+  padding: 8rpx 4rpx;
+}

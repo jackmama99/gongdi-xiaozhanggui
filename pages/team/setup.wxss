@@ -1,0 +1,108 @@
+.mode-tabs {
+  display: flex;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 8rpx;
+  margin-bottom: 24rpx;
+}
+
+.mode-tab {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx 0;
+  font-size: 28rpx;
+  color: var(--text-3);
+  border-radius: 16rpx;
+}
+
+.mode-tab-on {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.code-box {
+  margin: 8rpx 0 16rpx;
+}
+
+.code-input {
+  height: 104rpx;
+  background: var(--bg);
+  border-radius: 16rpx;
+  text-align: center;
+  font-size: 44rpx;
+  font-weight: 700;
+  letter-spacing: 12rpx;
+  color: var(--text-1);
+}
+
+.form-hint {
+  font-size: 24rpx;
+  color: var(--text-3);
+  line-height: 1.7;
+  margin-bottom: 8rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  min-height: 96rpx;
+  border-bottom: 1rpx solid var(--line);
+}
+
+.form-item:last-child {
+  border-bottom: none;
+}
+
+.form-label {
+  width: 200rpx;
+  font-size: 28rpx;
+  color: var(--text-1);
+}
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx;
+  text-align: right;
+  color: var(--text-1);
+}
+
+.form-ph {
+  color: var(--text-4);
+}
+
+.form-picker {
+  flex: 1;
+  text-align: right;
+  font-size: 28rpx;
+  color: var(--text-1);
+}
+
+.error-tip {
+  margin: 24rpx 4rpx 0;
+  font-size: 24rpx;
+  color: var(--danger);
+}
+
+.submit-btn {
+  margin-top: 40rpx;
+}
+
+.back-login {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--text-3);
+  margin-top: 32rpx;
+  padding-bottom: 40rpx;
+}
+
+/* 模式说明 */
+.setup-tip {
+  margin: 0 0 24rpx;
+  padding: 20rpx 24rpx;
+  background: var(--fill);
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  line-height: 1.6;
+  color: var(--text-2);
+}
